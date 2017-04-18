@@ -30,14 +30,14 @@ public class TournamentFetcher {
     Set<Tournament> getTournaments(int groupId) throws JAXBException {
         Set<Tournament> tournaments = new HashSet<>();
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        for (Element element : loadTournmentData(groupId)) {
+        for (Element element : loadTournamentData(groupId)) {
             tournaments.add((Tournament) unmarshaller.unmarshal(new StringReader(element.outerHtml())));
         }
         return tournaments;
     }
 
 
-    private List<Element> loadTournmentData(int groupId) {
+    private List<Element> loadTournamentData(int groupId) {
         List<Element> tournamentElements = new ArrayList<>();
         ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(
                 UriComponentsBuilder.fromHttpUrl(TOURNAMENTS_URL).buildAndExpand(groupId).toUri(), String.class);

@@ -16,11 +16,11 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import java.net.URI;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.butterbrot.fls.TestFileHelper.loadFile;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -50,9 +50,8 @@ public class TournamentFetcherTest {
         for (Tournament tournament: expectedTournaments) {
             assertTrue("Tournament not found for id: " + tournament.getId(), actualTournaments.contains(tournament));
         }
-
-
     }
+
     @Test(expected = RestClientException.class)
     public void httpError() throws Exception {
         when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenThrow(new RestClientException("Expected exception"));
