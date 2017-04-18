@@ -1,0 +1,23 @@
+package org.butterbrot.fls;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+
+@Configuration
+public class Config {
+
+    @Bean
+    public RestTemplate fumbblTemplate(){
+        return new RestTemplate();
+    }
+
+    @Bean
+    public JAXBContext jaxbContext() throws JAXBException {
+        return JAXBContext.newInstance("org.butterbrot.fls");
+    }
+
+}

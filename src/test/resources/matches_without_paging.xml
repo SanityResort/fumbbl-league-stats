@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<group id="195">
+    <name>The FUMBBL Cup</name>
+    <matches>
+        <match id="10" round="9" position="1">
+            <date>2015-12-20 23:31:28</date>
+            <gate>44000</gate>
+            <home id="1">
+                <TD>0</TD>
+                <cas bh="1" si="2" rip="0"/>
+                <rating>236</rating>
+                <teamValue>2360000</teamValue>
+                <tournamentWeight>2240000</tournamentWeight>
+                <strength>228</strength>
+                <winnings>50000</winnings>
+                <performances>
+                    <performance player="10" completions="1" touchdowns="1" interceptions="0" casualties="1"
+                                 mvps="0" passing="5" rushing="0" blocks="6" fouls="0" turns="10"/>
+                    <performance player="11" completions="0" touchdowns="0" interceptions="1" casualties="0"
+                                 mvps="0" passing="0" rushing="10" blocks="3" fouls="0" turns="12"/>
+                    <performance player="12" completions="0" touchdowns="0" interceptions="0" casualties="1"
+                                 mvps="0" passing="0" rushing="0" blocks="13" fouls="0" turns="17"/>
+                </performances>
+            </home>
+            <away id="3">
+                <TD>1</TD>
+                <cas bh="3" si="0" rip="1"/>
+                <rating>225</rating>
+                <teamValue>2250000</teamValue>
+                <tournamentWeight>2250000</tournamentWeight>
+                <strength>260</strength>
+                <winnings>60000</winnings>
+                <performances>
+                    <performance player="13" completions="0" touchdowns="0" interceptions="0" casualties="0"
+                                 mvps="1" passing="0" rushing="0" blocks="4" fouls="0" turns="15"/>
+                    <performance player="14" completions="0" touchdowns="0" interceptions="0" casualties="1"
+                                 mvps="0" passing="0" rushing="0" blocks="5" fouls="1" turns="17"/>
+                </performances>
+            </away>
+        </match>
+        <match id="11" round="9" position="1">
+            <date>2015-12-20 23:31:28</date>
+            <gate>44000</gate>
+            <home id="1">
+                <TD>0</TD>
+                <cas bh="1" si="0" rip="1"/>
+                <rating>236</rating>
+                <teamValue>2360000</teamValue>
+                <tournamentWeight>2240000</tournamentWeight>
+                <strength>228</strength>
+                <winnings>50000</winnings>
+                <performances>
+                    <performance player="16" completions="1" touchdowns="0" interceptions="0" casualties="1"
+                                 mvps="0" passing="5" rushing="0" blocks="6" fouls="0" turns="10"/>
+                    <performance player="17" completions="0" touchdowns="0" interceptions="1" casualties="0"
+                                 mvps="0" passing="0" rushing="10" blocks="3" fouls="0" turns="12"/>
+                    <performance player="12" completions="0" touchdowns="0" interceptions="0" casualties="1"
+                                 mvps="0" passing="0" rushing="0" blocks="13" fouls="0" turns="17"/>
+                </performances>
+            </home>
+            <away id="2">
+                <TD>1</TD>
+                <cas bh="1" si="2" rip="0"/>
+                <rating>225</rating>
+                <teamValue>2250000</teamValue>
+                <tournamentWeight>2250000</tournamentWeight>
+                <strength>260</strength>
+                <winnings>60000</winnings>
+                <performances>
+                    <performance player="13" completions="0" touchdowns="0" interceptions="0" casualties="0"
+                                 mvps="1" passing="0" rushing="0" blocks="4" fouls="0" turns="15"/>
+                    <performance player="14" completions="0" touchdowns="0" interceptions="0" casualties="1"
+                                 mvps="0" passing="0" rushing="0" blocks="5" fouls="1" turns="17"/>
+                </performances>
+            </away>
+        </match>
+        <match id="12" round="9" position="1">
+            <date>2015-12-20 23:31:28</date>
+            <gate>44000</gate>
+            <home id="2">
+                <TD>0</TD>
+                <cas bh="1" si="0" rip="0"/>
+                <rating>236</rating>
+                <teamValue>2360000</teamValue>
+                <tournamentWeight>2240000</tournamentWeight>
+                <strength>228</strength>
+                <winnings>50000</winnings>
+                <performances>
+                    <performance player="18" completions="1" touchdowns="0" interceptions="0" casualties="1"
+                                 mvps="0" passing="5" rushing="0" blocks="6" fouls="0" turns="10"/>
+                    <performance player="10" completions="0" touchdowns="0" interceptions="1" casualties="0"
+                                 mvps="0" passing="0" rushing="10" blocks="3" fouls="0" turns="12"/>
+                    <performance player="13" completions="0" touchdowns="0" interceptions="0" casualties="1"
+                                 mvps="0" passing="0" rushing="0" blocks="13" fouls="0" turns="17"/>
+                </performances>
+            </home>
+            <away id="3">
+                <TD>1</TD>
+                <cas bh="0" si="0" rip="1"/>
+                <rating>225</rating>
+                <teamValue>2250000</teamValue>
+                <tournamentWeight>2250000</tournamentWeight>
+                <strength>260</strength>
+                <winnings>60000</winnings>
+                <performances>
+                    <performance player="19" completions="0" touchdowns="0" interceptions="0" casualties="0"
+                                 mvps="1" passing="0" rushing="0" blocks="4" fouls="0" turns="15"/>
+                    <performance player="12" completions="0" touchdowns="0" interceptions="0" casualties="1"
+                                 mvps="0" passing="0" rushing="0" blocks="5" fouls="1" turns="17"/>
+                </performances>
+            </away>
+        </match>
+    </matches>
+</group>
