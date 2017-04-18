@@ -1,0 +1,55 @@
+package org.butterbrot.fls;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.annotation.Resource;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PerformanceFetcher {
+
+    private static final String MATCHES_URL = "https://fumbbl.com/xml:group?id={groupId}&op=matches&t={tournamentid}&paging={pagingId}";
+
+    @Resource
+    private RestTemplate fumbblTemplate;
+
+    @Resource
+    private JAXBContext jaxbContext;
+
+    public List<Performance> getPerformances(String groupId, String tournamentId) throws JAXBException {
+        List<Performance> performances = new ArrayList<>();
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        for (Element element : loadPerformanceData(groupId, tournamentId)) {
+            performances.add((Performance) unmarshaller.unmarshal(new StringReader(element.outerHtml())));
+        }
+        return performances;
+    }
+
+    private List<Element> loadPerformanceData(String groupId, String tournamentId) {
+        String pagingId = "0";
+        List<Element> performanceElements = new ArrayList<>();
+        while (pagingId != null) {
+            ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(
+                    UriComponentsBuilder.fromHttpUrl(MATCHES_URL).buildAndExpand(groupId, tournamentId, pagingId).toUri(), String.class);
+            Document doc = Jsoup.parse(responseEntity.getBody());
+            Elements nextPage = doc.getElementsByTag("nextPage");
+            if (nextPage.size() > 0) {
+                pagingId = nextPage.get(0).text();
+            } else {
+                pagingId = null;
+            }
+            performanceElements.addAll(doc.getElementsByTag("performance"));
+        }
+        return performanceElements;
+    }
+}

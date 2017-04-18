@@ -15,9 +15,6 @@ import javax.annotation.Resource;
 @SpringBootApplication
 public class Stats {
 
-    @Resource
-    private RestTemplate fumbblTemplate;
-
     @RequestMapping("{tournamentId}")
     @ResponseBody
     String tournament(@PathVariable String tournamentId) {

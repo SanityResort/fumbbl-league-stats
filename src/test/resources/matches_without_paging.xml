@@ -55,7 +55,7 @@
                     <performance player="17" completions="0" touchdowns="0" interceptions="1" casualties="0"
                                  mvps="0" passing="0" rushing="10" blocks="3" fouls="0" turns="12"/>
                     <performance player="12" completions="0" touchdowns="0" interceptions="0" casualties="1"
-                                 mvps="0" passing="0" rushing="0" blocks="13" fouls="0" turns="17"/>
+                                 mvps="1" passing="0" rushing="0" blocks="13" fouls="0" turns="17"/>
                 </performances>
             </home>
             <away id="2">
@@ -68,7 +68,7 @@
                 <winnings>60000</winnings>
                 <performances>
                     <performance player="13" completions="0" touchdowns="0" interceptions="0" casualties="0"
-                                 mvps="1" passing="0" rushing="0" blocks="4" fouls="0" turns="15"/>
+                                 mvps="0" passing="0" rushing="0" blocks="4" fouls="0" turns="15"/>
                     <performance player="14" completions="0" touchdowns="0" interceptions="0" casualties="1"
                                  mvps="0" passing="0" rushing="0" blocks="5" fouls="1" turns="17"/>
                 </performances>

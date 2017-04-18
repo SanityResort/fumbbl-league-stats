@@ -17,7 +17,7 @@ public class Config {
 
     @Bean
     public JAXBContext jaxbContext() throws JAXBException {
-        return JAXBContext.newInstance("org.butterbrot.fls");
+        return JAXBContext.newInstance(Performance.class);
     }
 
 }

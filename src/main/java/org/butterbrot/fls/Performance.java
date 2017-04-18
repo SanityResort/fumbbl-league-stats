@@ -1,18 +1,36 @@
 package org.butterbrot.fls;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "performance")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Performance {
 
+    @XmlAttribute(name="player")
     private int playerId;
 
+    @XmlAttribute(name="blocks")
     private int blocks;
+    @XmlAttribute(name="casualties")
     private int casualties;
+    @XmlAttribute(name="completions")
     private int completions;
+    @XmlAttribute(name="fouls")
     private int fouls;
+    @XmlAttribute(name="interceptions")
     private int interceptions;
+    @XmlAttribute(name="mvps")
     private int mvps;
+    @XmlAttribute(name="passing")
     private int passing;
+    @XmlAttribute(name="rushing")
     private int rushing;
+    @XmlAttribute(name="touchdowns")
     private int touchdowns;
+    @XmlAttribute(name="turns")
     private int turns;
 
     public void add(Performance other) {
@@ -30,6 +48,10 @@ public class Performance {
         this.setRushing(this.getRushing()+other.getRushing());
         this.setTouchdowns(this.getTouchdowns()+other.getTouchdowns());
         this.setTurns(this.getTurns()+other.getTurns());
+    }
+
+    private Performance() {
+        //jaxb
     }
 
     public Performance(int playerId) {
@@ -118,5 +140,53 @@ public class Performance {
 
     public void setTurns(int turns) {
         this.turns = turns;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Performance that = (Performance) o;
+
+        if (playerId != that.playerId)
+            return false;
+        if (blocks != that.blocks)
+            return false;
+        if (casualties != that.casualties)
+            return false;
+        if (completions != that.completions)
+            return false;
+        if (fouls != that.fouls)
+            return false;
+        if (interceptions != that.interceptions)
+            return false;
+        if (mvps != that.mvps)
+            return false;
+        if (passing != that.passing)
+            return false;
+        if (rushing != that.rushing)
+            return false;
+        if (touchdowns != that.touchdowns)
+            return false;
+        return turns == that.turns;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = playerId;
+        result = 31 * result + blocks;
+        result = 31 * result + casualties;
+        result = 31 * result + completions;
+        result = 31 * result + fouls;
+        result = 31 * result + interceptions;
+        result = 31 * result + mvps;
+        result = 31 * result + passing;
+        result = 31 * result + rushing;
+        result = 31 * result + touchdowns;
+        result = 31 * result + turns;
+        return result;
     }
 }
