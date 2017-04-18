@@ -20,4 +20,18 @@ public class Config {
         return JAXBContext.newInstance(Performance.class, Tournament.class);
     }
 
+    @Bean
+    public PerformanceMerger performanceMerger() {
+        return new PerformanceMerger();
+    }
+
+    @Bean
+    public PerformanceFetcher performanceFetcher() {
+        return new PerformanceFetcher();
+    }
+
+    @Bean
+    public TournamentFetcher tournamentFetcher() {
+        return new TournamentFetcher();
+    }
 }

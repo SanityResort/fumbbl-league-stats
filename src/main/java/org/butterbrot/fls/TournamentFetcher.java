@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -41,10 +42,13 @@ public class TournamentFetcher {
         List<Element> tournamentElements = new ArrayList<>();
         ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(
                 UriComponentsBuilder.fromHttpUrl(TOURNAMENTS_URL).buildAndExpand(groupId).toUri(), String.class);
-        Document doc = Jsoup.parse(responseEntity.getBody());
+
+        String response = responseEntity.getBody();
+        if (StringUtils.hasText(response)){
+        Document doc = Jsoup.parse(response);
 
         tournamentElements.addAll(doc.getElementsByTag("tournament"));
-
+        }
         return tournamentElements;
     }
 }

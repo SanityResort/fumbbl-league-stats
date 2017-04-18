@@ -9,16 +9,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import javax.xml.bind.JAXBException;
+import java.util.Set;
 
 @Controller
-@RequestMapping("/tournament")
 @SpringBootApplication
 public class Stats {
 
-    @RequestMapping("{tournamentId}")
+    @Resource
+    private TournamentFetcher tournamentFetcher;
+
+    @RequestMapping("/group/{groupId}/tournaments")
     @ResponseBody
-    String tournament(@PathVariable String tournamentId) {
-        return "Hello World! " + tournamentId;
+    String tournament(@PathVariable int groupId) throws JAXBException {
+        Set<Tournament> tournaments = tournamentFetcher.getTournaments(groupId);
+        return String.valueOf(tournaments.size());
     }
 
     public static void main(String[] args) throws Exception {

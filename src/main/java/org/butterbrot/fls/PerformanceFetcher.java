@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -41,14 +42,21 @@ public class PerformanceFetcher {
         while (pagingId != null) {
             ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(
                     UriComponentsBuilder.fromHttpUrl(MATCHES_URL).buildAndExpand(groupId, tournamentId, pagingId).toUri(), String.class);
-            Document doc = Jsoup.parse(responseEntity.getBody());
-            Elements nextPage = doc.getElementsByTag("nextPage");
-            if (nextPage.size() > 0) {
-                pagingId = nextPage.get(0).text();
+
+            String response = responseEntity.getBody();
+            if (StringUtils.hasText(response)) {
+
+                Document doc = Jsoup.parse(response);
+                Elements nextPage = doc.getElementsByTag("nextPage");
+                if (nextPage.size() > 0) {
+                    pagingId = nextPage.get(0).text();
+                } else {
+                    pagingId = null;
+                }
+                performanceElements.addAll(doc.getElementsByTag("performance"));
             } else {
-                pagingId = null;
+                break;
             }
-            performanceElements.addAll(doc.getElementsByTag("performance"));
         }
         return performanceElements;
     }
