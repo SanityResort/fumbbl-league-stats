@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
+import static org.butterbrot.fls.TestFileHelper.loadFile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -28,9 +29,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.butterbrot.fls.PerformanceTestHelper.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PerformanceFetcherTest extends PerformanceTest {
+public class PerformanceFetcherTest {
 
     private static final String FILE_MATCHES_WITH_PAGING = "/matches_with_paging.xml";
     private static final String FILE_MATCHES_WITHOUT_PAGING = "/matches_without_paging.xml";
@@ -75,12 +77,5 @@ public class PerformanceFetcherTest extends PerformanceTest {
         performanceFetcher.getPerformances("", "");
         verify(fumbblTemplate, times(2)).getForEntity(any(URI.class), eq(String.class));
         verifyNoMoreInteractions(fumbblTemplate);
-    }
-
-    private String loadFile(String file) throws IOException {
-
-        try (InputStream in = this.getClass().getResourceAsStream(file)) {
-            return new String(IOUtils.toByteArray(in), "UTF-8");
-        }
     }
 }

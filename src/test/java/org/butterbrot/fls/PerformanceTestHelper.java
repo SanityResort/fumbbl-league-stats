@@ -10,9 +10,9 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-class PerformanceTest {
+class PerformanceTestHelper {
 
-    void assertPerformances(List<Performance> expectedPerformances, List<Performance> actualPerformances) {
+    static void assertPerformances(List<Performance> expectedPerformances, List<Performance> actualPerformances) {
         assertEquals("Sizes do not match", expectedPerformances.size(), actualPerformances.size());
         for (Performance expectedPerformance : expectedPerformances) {
             assertTrue("Did not find performance for id: " + expectedPerformance.getPlayerId(), actualPerformances.contains(expectedPerformance));
