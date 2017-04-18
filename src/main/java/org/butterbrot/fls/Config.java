@@ -17,7 +17,7 @@ public class Config {
 
     @Bean
     public JAXBContext jaxbContext() throws JAXBException {
-        return JAXBContext.newInstance(Performance.class);
+        return JAXBContext.newInstance(Performance.class, Tournament.class);
     }
 
 }

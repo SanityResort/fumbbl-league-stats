@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<group id="2299">
+    <name>Grotty Little Tournament</name>
+    <tournaments>
+        <tournament id="1">
+            <name>Grotty Little Tournament I</name>
+            <season>1</season>
+            <type>Knockout</type>
+            <style>Strict</style>
+        </tournament>
+        <tournament id="2">
+            <name>Grotty Little Tournament II</name>
+            <season>2</season>
+            <type>Knockout</type>
+            <style>Strict</style>
+        </tournament>
+        <tournament id="3">
+            <name>Grotty Little Tournament III</name>
+            <season>3</season>
+            <type>Knockout</type>
+            <style>Strict</style>
+        </tournament>
+        <tournament id="4">
+            <name>Grotty Little Tournament IV</name>
+            <season>4</season>
+            <type>Knockout</type>
+            <style>Strict</style>
+        </tournament>
+        <tournament id="5">
+            <name>Grotty Little Tournament V</name>
+            <season>5</season>
+            <type>Knockout</type>
+            <style>Strict</style>
+        </tournament>
+    </tournaments>
+</group>
