@@ -34,4 +34,14 @@ public class Config {
     public TournamentFetcher tournamentFetcher() {
         return new TournamentFetcher();
     }
+
+    @Bean
+    public PerformanceEvaluator performanceEvaluator() {
+        return new PerformanceEvaluator();
+    }
+
+    @Bean
+    public PlayerFetcher playerFetcher() {
+        return new PlayerFetcher();
+    }
 }

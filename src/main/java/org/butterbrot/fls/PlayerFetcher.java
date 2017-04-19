@@ -18,7 +18,7 @@ public class PlayerFetcher {
     @Resource
     private RestTemplate fumbblTemplate;
 
-    public void populate(Performance performance) {
+    public void populate(PerformanceValue performance) {
         ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(
                 UriComponentsBuilder.fromHttpUrl(PLAYER_URL).buildAndExpand(performance.getPlayerId()).toUri(), String.class);
 

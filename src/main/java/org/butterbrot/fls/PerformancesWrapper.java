@@ -3,15 +3,15 @@ package org.butterbrot.fls;
 import java.util.List;
 
 public class PerformancesWrapper {
-    private List<Performance> performances;
+    private List<PerformanceValue> performances;
     private String title;
 
-    public PerformancesWrapper(List<Performance> performances, String title) {
+    public PerformancesWrapper(List<PerformanceValue> performances, String title) {
         this.performances = performances;
         this.title = title;
     }
 
-    public List<Performance> getPerformances() {
+    public List<PerformanceValue> getPerformances() {
         return performances;
     }
 

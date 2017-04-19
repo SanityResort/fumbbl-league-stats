@@ -7,9 +7,11 @@
     <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
 </head>
 <body>
-    <div th:each="performance : ${performances}">
-        <div th:text="${performance.playerId}"></div>
+<div th:each="wrapper: ${wrappers}">
+    <div th:text="${wrapper.title}"></div>
+    <div th:each="performance: ${wrapper.performances}">
+        <div th:text="${performance.playerName} + ' - ' + ${performance.teamName} + ' - ' + ${performance.value}"></div>
     </div>
-
+</div>
 </body>
 </html>

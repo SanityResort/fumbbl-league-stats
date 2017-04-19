@@ -9,12 +9,12 @@ enum PerformanceAspect {
     RUSHING("Most Rushing Yards", new RushingAccessor()),
     TOUCHDOWNS("Most Touchdowns Scored", new TouchdownsAccessor()), TURNS("Most Turns Played", new TurnsAccessor());
 
-    private final String fieldName;
+    private final String title;
     private final AspectAccessor accessor;
 
 
-    PerformanceAspect(String fieldName, AspectAccessor accessor) {
-        this.fieldName = fieldName;
+    PerformanceAspect(String title, AspectAccessor accessor) {
+        this.title = title;
         this.accessor = accessor;
     }
 
@@ -22,8 +22,8 @@ enum PerformanceAspect {
         return accessor.access(performance);
     }
 
-    public String getFieldName() {
-        return fieldName;
+    public String getTitle() {
+        return title;
     }
 
     private interface AspectAccessor {

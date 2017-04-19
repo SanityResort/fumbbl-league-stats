@@ -55,20 +55,20 @@ public class Stats {
         Set<Performance> performances = performanceMerger.merge(getPerformances(tournamentIds, groupId));
 
         List<PerformancesWrapper> wrappers = new ArrayList<>();
-        Set<Performance> selectedPerformances = new HashSet<>();
+        Set<PerformanceValue> selectedPerformances = new HashSet<>();
 
         for (PerformanceAspect aspect : PerformanceAspect.values()) {
-            List<Performance> sortedPerformances = performanceEvaluator.evaluate(performances, aspect, 10);
+            List<PerformanceValue> sortedPerformances = performanceEvaluator.evaluate(performances, aspect, 10);
 
             selectedPerformances.addAll(sortedPerformances);
 
             wrappers.add(new PerformancesWrapper(sortedPerformances, aspect
-                    .getFieldName()));
+                    .getTitle()));
         }
 
-        selectedPerformances.parallelStream().forEach(new Consumer<Performance>() {
+        selectedPerformances.parallelStream().forEach(new Consumer<PerformanceValue>() {
             @Override
-            public void accept(Performance performance) {
+            public void accept(PerformanceValue performance) {
                 playerFetcher.populate(performance);
             }
         });
