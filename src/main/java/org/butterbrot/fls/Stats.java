@@ -39,8 +39,13 @@ public class Stats {
     @Resource
     private PlayerFetcher playerFetcher;
 
-    @RequestMapping("/group/{groupId}/tournaments")
-    public String getTournaments(@PathVariable int groupId, Model model) throws JAXBException {
+    @RequestMapping("/")
+    public String index(){
+        return "index";
+    }
+
+    @RequestMapping("/tournaments")
+    public String getTournaments(@RequestParam int groupId, Model model) throws JAXBException {
         List<Tournament> tournaments = tournamentFetcher.getTournaments(groupId);
         Collections.sort(tournaments);
         model.addAttribute("tournaments", tournaments);

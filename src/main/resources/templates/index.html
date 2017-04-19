@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Fumbbl League Stats</title>
+    <link rel="stylesheet" th:href="@{/css/stats.css}" type="text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
+</head>
+<body>
+<form action="#" th:action="@{/tournaments}">
+    <input type="submit"/>
+    <input type="text" name="groupId" id="groupId" th:value="${groupId}"/>
+    <label th:for="groupId">Insert GroupId</label>
+
+</form>
+</body>
+</html>
