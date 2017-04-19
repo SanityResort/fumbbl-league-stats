@@ -75,12 +75,43 @@ class PerformanceTestHelper {
     }
 
 
-    static Set<Performance> unevaluatesdPerformances () {
+    static Set<Performance> unevaluatedPerformances() {
         Set<Performance> unevaluatedPerformances = new HashSet<>();
         for (int id = 10; id>0; id-- ) {
             int value = id > 6 ? id : (id>3?3:(id > 2 ? 1: 0));
             unevaluatedPerformances.add(createPerformance(id, value, value, value, value, value, value, value, value, value, value));
         }
         return unevaluatedPerformances;
+    }
+
+    static Set<Performance> unevaluatedBlockPerformaces(){
+        int id = 0;
+        Set<Performance> unevaluatedPerformances = new HashSet<>();
+        unevaluatedPerformances.add(createBlockPerformance(++id, 7, 3));
+        unevaluatedPerformances.add(createBlockPerformance(++id, 4, 3));
+        unevaluatedPerformances.add(createBlockPerformance(++id, 7, 5));
+        unevaluatedPerformances.add(createBlockPerformance(++id, 4, 2));
+        unevaluatedPerformances.add(createBlockPerformance(++id, 4, 2));
+        unevaluatedPerformances.add(createBlockPerformance(++id, 2, 1));
+        return unevaluatedPerformances;
+    }
+
+    static Set<Performance> unevaluatedPassPerformaces(){
+        int id = 0;
+        Set<Performance> unevaluatedPerformances = new HashSet<>();
+        unevaluatedPerformances.add(createPassPerformance(++id, 4, 6));
+        unevaluatedPerformances.add(createPassPerformance(++id, 7, 12));
+        unevaluatedPerformances.add(createPassPerformance(++id, 4, 6));
+        unevaluatedPerformances.add(createPassPerformance(++id, 2, 5));
+        unevaluatedPerformances.add(createPassPerformance(++id, 7, 10));
+        return unevaluatedPerformances;
+    }
+
+    static Performance createBlockPerformance(int id, int blocks, int casualties) {
+        return createPerformance(id, blocks, casualties, 0, 0, 0, 0, 0, 0, 0, 0);
+    }
+
+    static Performance createPassPerformance(int id, int completions, int passing) {
+        return createPerformance(id, 0, 0, completions, 0, 0, 0, passing, 0, 0, 0);
     }
 }

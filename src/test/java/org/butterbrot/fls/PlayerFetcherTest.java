@@ -33,7 +33,7 @@ public class PlayerFetcherTest {
     @Test
     public void populate() throws Exception {
         when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>(loadFile(FILE_PLAYER), HttpStatus.OK));
-        PerformanceValue performance = new PerformanceValue(0, 0);
+        PerformanceValue performance = new PerformanceValue(0, 0, null, null);
         playerFetcher.populate(performance);
         assertEquals("Player name not set correctly", "Kletran Minotaurson", performance.getPlayerName());
         assertEquals("Team name not set correctly", "[D-A-CH] Brüder des Donners", performance.getTeamName());
@@ -43,6 +43,6 @@ public class PlayerFetcherTest {
     @Test(expected = RestClientException.class)
     public void httpError() throws Exception {
         when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenThrow(new RestClientException("Expected exception"));
-        playerFetcher.populate(new PerformanceValue(0, 0));
+        playerFetcher.populate(new PerformanceValue(0, 0, null, null));
     }
 }

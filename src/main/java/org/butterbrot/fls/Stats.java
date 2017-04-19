@@ -63,7 +63,7 @@ public class Stats {
             selectedPerformances.addAll(sortedPerformances);
 
             wrappers.add(new PerformancesWrapper(sortedPerformances, aspect
-                    .getTitle()));
+                    .getTitle(), aspect.getTieBreakerTitle()));
         }
 
         selectedPerformances.parallelStream().forEach(new Consumer<PerformanceValue>() {

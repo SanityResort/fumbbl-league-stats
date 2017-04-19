@@ -1,6 +1,6 @@
 package org.butterbrot.fls;
 
-public class PerformanceValue {
+public class PerformanceValue implements Comparable {
 
     private int playerId;
 
@@ -9,10 +9,19 @@ public class PerformanceValue {
     private String teamUrlPath;
 
     private int value;
+    private Integer tiebreaker;
 
-    public PerformanceValue(int playerId, int value) {
+    private PerformanceAspect aspect;
+
+    public PerformanceValue(int playerId, int value, Integer tiebreaker, PerformanceAspect aspect) {
         this.playerId = playerId;
         this.value = value;
+        this.tiebreaker = tiebreaker;
+        this.aspect = aspect;
+    }
+
+    public Integer getTiebreaker() {
+        return tiebreaker;
     }
 
     public int getValue() {
@@ -45,5 +54,33 @@ public class PerformanceValue {
 
     public void setTeamUrlPath(String teamUrlPath) {
         this.teamUrlPath = teamUrlPath;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o == null) {
+            throw new IllegalArgumentException("Comparing with null value");
+        }
+        if (! (o instanceof PerformanceValue)) {
+            throw new IllegalArgumentException("Comparing invalid class: " + o.getClass().getSimpleName());
+        }
+
+        PerformanceValue that = (PerformanceValue) o;
+
+        if (this.aspect != that.aspect) {
+            throw new IllegalArgumentException("Comparing different aspects: " + this.aspect.name() + " and " + that.aspect.name());
+        }
+
+        int result = Integer.valueOf(that.getValue()).compareTo(this.getValue());
+
+        if (result == 0 && aspect.hasTiebreaker()) {
+            if (aspect.isSortTiebreakAsc()) {
+                result = this.getTiebreaker().compareTo(that.getTiebreaker());
+            } else {
+                result = that.getTiebreaker().compareTo(this.getTiebreaker());
+            }
+        }
+
+        return result;
     }
 }

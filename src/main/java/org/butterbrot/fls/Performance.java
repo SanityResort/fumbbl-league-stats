@@ -9,46 +9,49 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Performance {
 
-    @XmlAttribute(name="player")
+    @XmlAttribute(name = "player")
     private int playerId;
 
-    @XmlAttribute(name="blocks")
+    @XmlAttribute(name = "blocks")
     private int blocks;
-    @XmlAttribute(name="casualties")
+    @XmlAttribute(name = "casualties")
     private int casualties;
-    @XmlAttribute(name="completions")
+    @XmlAttribute(name = "completions")
     private int completions;
-    @XmlAttribute(name="fouls")
+    @XmlAttribute(name = "fouls")
     private int fouls;
-    @XmlAttribute(name="interceptions")
+    @XmlAttribute(name = "interceptions")
     private int interceptions;
-    @XmlAttribute(name="mvps")
+    @XmlAttribute(name = "mvps")
     private int mvps;
-    @XmlAttribute(name="passing")
+    @XmlAttribute(name = "passing")
     private int passing;
-    @XmlAttribute(name="rushing")
+    @XmlAttribute(name = "rushing")
     private int rushing;
-    @XmlAttribute(name="touchdowns")
+    @XmlAttribute(name = "touchdowns")
     private int touchdowns;
-    @XmlAttribute(name="turns")
+    @XmlAttribute(name = "turns")
     private int turns;
 
+    private int spp;
 
     public void add(Performance other) {
         if (this.getPlayerId() != other.getPlayerId()) {
-            throw new IllegalArgumentException("PlayerIds did not match. This had "+this.getPlayerId()+" - Other had "+ other.getPlayerId());
+            throw new IllegalArgumentException("PlayerIds did not match. This had " + this.getPlayerId() + " - Other " +
+                    "had " + other.getPlayerId());
         }
 
-        this.setBlocks(this.getBlocks()+other.getBlocks());
-        this.setCasualties(this.getCasualties()+other.getCasualties());
-        this.setCompletions(this.getCompletions()+other.getCompletions());
-        this.setFouls(this.getFouls()+other.getFouls());
-        this.setInterceptions(this.getInterceptions()+other.getInterceptions());
-        this.setMvps(this.getMvps()+other.getMvps());
-        this.setPassing(this.getPassing()+other.getPassing());
-        this.setRushing(this.getRushing()+other.getRushing());
-        this.setTouchdowns(this.getTouchdowns()+other.getTouchdowns());
-        this.setTurns(this.getTurns()+other.getTurns());
+        this.setBlocks(this.getBlocks() + other.getBlocks());
+        this.setCasualties(this.getCasualties() + other.getCasualties());
+        this.setCompletions(this.getCompletions() + other.getCompletions());
+        this.setFouls(this.getFouls() + other.getFouls());
+        this.setInterceptions(this.getInterceptions() + other.getInterceptions());
+        this.setMvps(this.getMvps() + other.getMvps());
+        this.setPassing(this.getPassing() + other.getPassing());
+        this.setRushing(this.getRushing() + other.getRushing());
+        this.setTouchdowns(this.getTouchdowns() + other.getTouchdowns());
+        this.setTurns(this.getTurns() + other.getTurns());
+        calculateSpp();
     }
 
     private Performance() {
@@ -143,35 +146,31 @@ public class Performance {
         this.turns = turns;
     }
 
+    public int getSpp() {
+        return spp;
+    }
+
+    public void calculateSpp() {
+        this.spp = this.mvps * 5 + this.completions + this.touchdowns * 3 + this.casualties * 2 + this.interceptions *2;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Performance that = (Performance) o;
 
-        if (playerId != that.playerId)
-            return false;
-        if (blocks != that.blocks)
-            return false;
-        if (casualties != that.casualties)
-            return false;
-        if (completions != that.completions)
-            return false;
-        if (fouls != that.fouls)
-            return false;
-        if (interceptions != that.interceptions)
-            return false;
-        if (mvps != that.mvps)
-            return false;
-        if (passing != that.passing)
-            return false;
-        if (rushing != that.rushing)
-            return false;
-        if (touchdowns != that.touchdowns)
-            return false;
+        if (playerId != that.playerId) return false;
+        if (blocks != that.blocks) return false;
+        if (casualties != that.casualties) return false;
+        if (completions != that.completions) return false;
+        if (fouls != that.fouls) return false;
+        if (interceptions != that.interceptions) return false;
+        if (mvps != that.mvps) return false;
+        if (passing != that.passing) return false;
+        if (rushing != that.rushing) return false;
+        if (touchdowns != that.touchdowns) return false;
         return turns == that.turns;
     }
 

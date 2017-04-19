@@ -14,25 +14,20 @@ public class PerformanceEvaluator {
                 PerformanceValue>() {
             @Override
             public PerformanceValue apply(Performance performance) {
-                return new PerformanceValue(performance.getPlayerId(), aspect.getValue(performance));
+                return new PerformanceValue(performance.getPlayerId(), aspect.getValue(performance), aspect.getTieBreakerValue(performance), aspect);
             }
         }).filter(new Predicate<PerformanceValue>() {
             @Override
             public boolean test(PerformanceValue performance) {
                 return performance.getValue() > 0;
             }
-        }).sorted(new Comparator<PerformanceValue>() {
-            @Override
-            public int compare(PerformanceValue performance1, PerformanceValue performance2) {
-                return Integer.valueOf(performance2.getValue()).compareTo(performance1.getValue());
-            }
-        }).collect(Collectors.toList());
+        }).sorted().collect(Collectors.toList());
 
         if (sortedPerformances.size() > limit) {
-            int limitValue = sortedPerformances.get(limit - 1).getValue();
+            PerformanceValue limitValue = sortedPerformances.get(limit - 1);
             int additionalElements = 0;
             for (int i = limit; i < sortedPerformances.size(); i++) {
-                if (sortedPerformances.get(i).getValue() == limitValue) {
+                if (sortedPerformances.get(i).compareTo(limitValue) == 0) {
                     additionalElements++;
                 } else {
                     break;
