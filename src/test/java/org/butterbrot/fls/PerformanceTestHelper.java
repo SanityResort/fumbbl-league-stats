@@ -104,6 +104,7 @@ class PerformanceTestHelper {
         unevaluatedPerformances.add(createPassPerformance(++id, 4, 6));
         unevaluatedPerformances.add(createPassPerformance(++id, 2, 5));
         unevaluatedPerformances.add(createPassPerformance(++id, 7, 10));
+        unevaluatedPerformances.add(createPassPerformance(++id, 1, 10));
         return unevaluatedPerformances;
     }
 

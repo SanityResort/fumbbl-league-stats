@@ -1,17 +1,17 @@
 package org.butterbrot.fls;
 
 enum PerformanceAspect {
-    BLOCKS("Most Blocks Thrown", new BlocksAccessor(), "Played Turns", new TurnsAccessor()),
-    CASUALTIES("Most Casualties Caused", new CasualtiesAccessor(), "Blocks Thrown", new BlocksAccessor()),
-    COMPLETIONS("Most Completions Thrown", new CompletionsAccessor(), false, "Yards Passed", new PassingAccessor()),
-    FOULS("Most Fouls Committed", new FoulsAccessor(), "Played Turns", new TurnsAccessor()),
-    INTERCEPTIONS("Most Interceptions Caught", new InterceptionsAccessor(), "Played Turns", new TurnsAccessor()),
-    MVPS("Most MVPs Received", new MvpsAccessor()),
-    PASSING("Most Passing Yards", new PassingAccessor(), "Completions Thrown", new CompletionsAccessor()),
-    RUSHING("Most Rushing Yards", new RushingAccessor(), "Played Turns", new TurnsAccessor()),
-    SPPS("Most Spps Earned", new SppsAccessor(), "MVPs Received", new MvpsAccessor()),
-    TOUCHDOWNS("Most Touchdowns Scored", new TouchdownsAccessor(), "Played Turns", new TurnsAccessor()),
-    TURNS("Most Turns Played", new TurnsAccessor());
+    BLOCKS("Blocks Thrown", new BlocksAccessor(), "Played Turns", new TurnsAccessor()),
+    CASUALTIES("Casualties Caused", new CasualtiesAccessor(), "Blocks Thrown", new BlocksAccessor()),
+    COMPLETIONS("Completions Thrown", new CompletionsAccessor(), false, "Yards Passed", new PassingAccessor()),
+    FOULS("Fouls Committed", new FoulsAccessor(), "Played Turns", new TurnsAccessor()),
+    INTERCEPTIONS("Interceptions Caught", new InterceptionsAccessor(), "Played Turns", new TurnsAccessor()),
+    MVPS("MVPs Received", new MvpsAccessor()),
+    PASSING("Passing Yards", new PassingAccessor(), "Completions Thrown", new CompletionsAccessor()),
+    RUSHING("Rushing Yards", new RushingAccessor(), "Played Turns", new TurnsAccessor()),
+    SPPS("Spps Earned", new SppsAccessor(), "MVPs Received", new MvpsAccessor()),
+    TOUCHDOWNS("Touchdowns Scored", new TouchdownsAccessor(), "Played Turns", new TurnsAccessor()),
+    TURNS("Turns Played", new TurnsAccessor());
 
     private final String title;
     private final AspectAccessor accessor;

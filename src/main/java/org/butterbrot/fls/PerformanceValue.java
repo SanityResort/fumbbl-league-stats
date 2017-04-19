@@ -3,7 +3,7 @@ package org.butterbrot.fls;
 public class PerformanceValue implements Comparable {
 
     private int playerId;
-
+    private int place;
     private String playerName;
     private String teamName;
     private String teamUrlPath;
@@ -18,6 +18,14 @@ public class PerformanceValue implements Comparable {
         this.value = value;
         this.tiebreaker = tiebreaker;
         this.aspect = aspect;
+    }
+
+    public int getPlace() {
+        return place;
+    }
+
+    public void setPlace(int place) {
+        this.place = place;
     }
 
     public Integer getTiebreaker() {

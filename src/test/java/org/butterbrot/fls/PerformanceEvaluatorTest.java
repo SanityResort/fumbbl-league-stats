@@ -80,6 +80,17 @@ public class PerformanceEvaluatorTest {
     }
 
     @Test
+    public void tiebreakersSortDscNumbersCorrectly() {
+        List<PerformanceValue> performances = evaluator.evaluate(PerformanceTestHelper.unevaluatedPassPerformaces(), PerformanceAspect.COMPLETIONS, 6);
+        assertEquals("First place is for first", 1, performances.get(0).getPlace());
+        assertEquals("Second place is for second", 2, performances.get(1).getPlace());
+        assertEquals("Third place is for third and fourth", 3, performances.get(2).getPlace());
+        assertEquals("Third place is for third and fourth", 3, performances.get(3).getPlace());
+        assertEquals("Fourth place is for fifth", 4, performances.get(4).getPlace());
+        assertEquals("Fifth place is for sixth", 5, performances.get(5).getPlace());
+    }
+
+    @Test
     public void tiebreakersSortDscExtendsLimit() {
         List<PerformanceValue> performances = evaluator.evaluate(PerformanceTestHelper.unevaluatedPassPerformaces(), PerformanceAspect.COMPLETIONS, 3);
         assertEquals("Limit must be extended by one", 4, performances.size());
