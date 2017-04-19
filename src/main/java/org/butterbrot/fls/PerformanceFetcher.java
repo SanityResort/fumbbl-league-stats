@@ -48,10 +48,10 @@ public class PerformanceFetcher {
 
                 Document doc = Jsoup.parse(response);
                 Elements nextPage = doc.getElementsByTag("nextPage");
-                if (nextPage.size() > 0) {
-                    pagingId = nextPage.get(0).text();
-                } else {
+                if (nextPage.isEmpty()){
                     pagingId = null;
+                } else {
+                    pagingId = nextPage.first().text();
                 }
                 performanceElements.addAll(doc.getElementsByTag("performance"));
             } else {

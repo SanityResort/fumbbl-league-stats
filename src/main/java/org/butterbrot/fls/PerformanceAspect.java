@@ -2,12 +2,12 @@ package org.butterbrot.fls;
 
 enum PerformanceAspect {
     BLOCKS("Most Blocks Throwns", new BlocksAccessor()), CASUALTIES("Most Casualties Caused", new CasualtiesAccessor()),
-    COMPLECTIONS("Most Completions Thrown", new CasualtiesAccessor()),
+    COMPLETIONS("Most Completions Thrown", new CompletionsAccessor()),
     FOULS("Most Fouls Committed", new FoulsAccessor()),
     INTERCEPTIONS("Most Interceptions Caught", new InterceptionsAccessor()),
     MVPS("Most MVPs Received", new MvpsAccessor()), PASSING("Most Passing Yards", new PassingAccessor()),
     RUSHING("Most Rushing Yards", new RushingAccessor()),
-    TOUCHDOWNS("Most Touchdowns Scored", new TouohdownsAccessor()), TURNS("Most Turns Played", new TurnsAccessor());
+    TOUCHDOWNS("Most Touchdowns Scored", new TouchdownsAccessor()), TURNS("Most Turns Played", new TurnsAccessor());
 
     private final String fieldName;
     private final AspectAccessor accessor;
@@ -95,7 +95,7 @@ enum PerformanceAspect {
         }
     }
 
-    private static class TouohdownsAccessor implements AspectAccessor {
+    private static class TouchdownsAccessor implements AspectAccessor {
 
         @Override
         public int access(Performance performance) {

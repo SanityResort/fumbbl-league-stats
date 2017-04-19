@@ -33,6 +33,10 @@ public class Performance {
     @XmlAttribute(name="turns")
     private int turns;
 
+    private String playerName;
+    private String teamName;
+    private String teamUrlPath;
+
     public void add(Performance other) {
         if (this.getPlayerId() != other.getPlayerId()) {
             throw new IllegalArgumentException("PlayerIds did not match. This had "+this.getPlayerId()+" - Other had "+ other.getPlayerId());
@@ -140,6 +144,30 @@ public class Performance {
 
     public void setTurns(int turns) {
         this.turns = turns;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public String getTeamUrlPath() {
+        return teamUrlPath;
+    }
+
+    public void setTeamUrlPath(String teamUrlPath) {
+        this.teamUrlPath = teamUrlPath;
     }
 
     @Override

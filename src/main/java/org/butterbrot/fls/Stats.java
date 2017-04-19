@@ -12,8 +12,10 @@ import javax.annotation.Resource;
 import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -34,6 +36,9 @@ public class Stats {
     @Resource
     private PerformanceEvaluator performanceEvaluator;
 
+    @Resource
+    private PlayerFetcher playerFetcher;
+
     @RequestMapping("/group/{groupId}/tournaments")
     public String getTournaments(@PathVariable int groupId, Model model) throws JAXBException {
         List<Tournament> tournaments = tournamentFetcher.getTournaments(groupId);
@@ -50,11 +55,23 @@ public class Stats {
         Set<Performance> performances = performanceMerger.merge(getPerformances(tournamentIds, groupId));
 
         List<PerformancesWrapper> wrappers = new ArrayList<>();
+        Set<Performance> selectedPerformances = new HashSet<>();
+
         for (PerformanceAspect aspect : PerformanceAspect.values()) {
-            wrappers.add(new PerformancesWrapper(performanceEvaluator.evaluate(performances, aspect, 10), aspect
+            List<Performance> sortedPerformances = performanceEvaluator.evaluate(performances, aspect, 10);
+
+            selectedPerformances.addAll(sortedPerformances);
+
+            wrappers.add(new PerformancesWrapper(sortedPerformances, aspect
                     .getFieldName()));
         }
 
+        selectedPerformances.parallelStream().forEach(new Consumer<Performance>() {
+            @Override
+            public void accept(Performance performance) {
+                playerFetcher.populate(performance);
+            }
+        });
 
         model.addAttribute("wrappers", wrappers);
 

@@ -14,13 +14,11 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class TournamentFetcher {
 
-    private static final String TOURNAMENTS_URL = "http://fumbbl.com/xml:group?id={groupId}&op=tourneys";
+    private static final String TOURNAMENTS_URL = "https://fumbbl.com/xml:group?id={groupId}&op=tourneys";
 
     @Resource
     private RestTemplate fumbblTemplate;
@@ -40,14 +38,14 @@ public class TournamentFetcher {
 
     private List<Element> loadTournamentData(int groupId) {
         List<Element> tournamentElements = new ArrayList<>();
-        ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(
-                UriComponentsBuilder.fromHttpUrl(TOURNAMENTS_URL).buildAndExpand(groupId).toUri(), String.class);
+        ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(UriComponentsBuilder.fromHttpUrl
+                (TOURNAMENTS_URL).buildAndExpand(groupId).toUri(), String.class);
 
         String response = responseEntity.getBody();
-        if (StringUtils.hasText(response)){
-        Document doc = Jsoup.parse(response);
+        if (StringUtils.hasText(response)) {
+            Document doc = Jsoup.parse(response);
 
-        tournamentElements.addAll(doc.getElementsByTag("tournament"));
+            tournamentElements.addAll(doc.getElementsByTag("tournament"));
         }
         return tournamentElements;
     }
