@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Fumbbl League Stats - Performances</title>
+    <link rel="stylesheet" th:href="@{/css/stats.css}" type="text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
+</head>
+<body>
+    <div th:each="performance : ${performances}">
+        <div th:text="${performance.playerId}"></div>
+    </div>
+
+</body>
+</html>

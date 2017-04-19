@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "tournament")
-public class Tournament {
+public class Tournament implements Comparable{
 
     private int id;
 
@@ -76,5 +76,14 @@ public class Tournament {
         result = 31 * result + name.hashCode();
         result = 31 * result + season;
         return result;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if ( o != null && o instanceof Tournament) {
+            Tournament that = (Tournament) o;
+            return Integer.valueOf(that.getId()).compareTo(this.getId());
+        }
+        return -1;
     }
 }

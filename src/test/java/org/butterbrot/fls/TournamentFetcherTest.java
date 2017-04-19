@@ -16,6 +16,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import java.net.URI;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.butterbrot.fls.TestFileHelper.loadFile;
@@ -45,7 +46,7 @@ public class TournamentFetcherTest {
     @Test
     public void getTournaments() throws Exception{
         when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>(loadFile(FILE_TOURNAMENTS), HttpStatus.OK));
-        Set<Tournament> actualTournaments = tournamentFetcher.getTournaments(0);
+        List<Tournament> actualTournaments = tournamentFetcher.getTournaments(0);
         assertEquals("Size of tournaments did not match", expectedTournaments.size(), actualTournaments.size());
         for (Tournament tournament: expectedTournaments) {
             assertTrue("Tournament not found for id: " + tournament.getId(), actualTournaments.contains(tournament));

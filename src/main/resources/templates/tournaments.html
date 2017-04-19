@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Fumbbl League Stats - Tournament Listing</title>
+    <link rel="stylesheet" th:href="@{/css/stats.css}" type="text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
+</head>
+<body>
+<form action="#" th:action="@{/performances}">
+    <input type="submit"/>
+    <input type="hidden" name="groupId" th:value="${groupId}"/>
+    <div th:each="tournament : ${tournaments}">
+        <input type="checkbox" name="tournamentIds" th:value="${tournament.id}" th:id="${tournament.id}"/>
+        <label th:for="${tournament.id}" th:text="${tournament.name} + ' - ' + ${tournament.season}"></label>
+    </div>
+
+</form>
+</body>
+</html>

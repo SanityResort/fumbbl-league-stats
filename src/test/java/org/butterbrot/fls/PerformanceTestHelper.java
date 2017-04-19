@@ -1,6 +1,7 @@
 package org.butterbrot.fls;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 class PerformanceTestHelper {
 
-    static void assertPerformances(List<Performance> expectedPerformances, List<Performance> actualPerformances) {
+    static void assertPerformances(Collection<Performance> expectedPerformances, Collection<Performance> actualPerformances) {
         assertEquals("Sizes do not match", expectedPerformances.size(), actualPerformances.size());
         for (Performance expectedPerformance : expectedPerformances) {
             assertTrue("Did not find performance for id: " + expectedPerformance.getPlayerId(), actualPerformances.contains(expectedPerformance));
@@ -73,4 +74,13 @@ class PerformanceTestHelper {
         return expectedPerformances;
     }
 
+
+    static Set<Performance> unevaluatesdPerformances () {
+        Set<Performance> unevaluatedPerformances = new HashSet<>();
+        for (int id = 10; id>0; id-- ) {
+            int value = id > 6 ? id : (id>3?3:(id > 2 ? 1: 0));
+            unevaluatedPerformances.add(createPerformance(id, value, value, value, value, value, value, value, value, value, value));
+        }
+        return unevaluatedPerformances;
+    }
 }

@@ -28,8 +28,8 @@ public class TournamentFetcher {
     @Resource
     private JAXBContext jaxbContext;
 
-    Set<Tournament> getTournaments(int groupId) throws JAXBException {
-        Set<Tournament> tournaments = new HashSet<>();
+    List<Tournament> getTournaments(int groupId) throws JAXBException {
+        List<Tournament> tournaments = new ArrayList<>();
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         for (Element element : loadTournamentData(groupId)) {
             tournaments.add((Tournament) unmarshaller.unmarshal(new StringReader(element.outerHtml())));

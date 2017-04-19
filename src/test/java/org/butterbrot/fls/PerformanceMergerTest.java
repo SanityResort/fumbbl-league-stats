@@ -3,7 +3,9 @@ package org.butterbrot.fls;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.butterbrot.fls.PerformanceTestHelper.*;
 
@@ -14,13 +16,13 @@ public class PerformanceMergerTest {
 
     @Test
     public void merge() {
-        List<Performance> mergedPerformances = performanceMerger.merge(unmergedPerformances());
+        Set<Performance> mergedPerformances = performanceMerger.merge(unmergedPerformances());
         assertPerformances(expectedPerformances(), mergedPerformances);
     }
 
 
-    private static List<Performance> expectedPerformances() {
-        List<Performance> expectedPerformances = new ArrayList<>();
+    private static Set<Performance> expectedPerformances() {
+        Set<Performance> expectedPerformances = new HashSet<>();
         expectedPerformances.add(createPerformance(10, 6 + 3, 1, 1, 0, 0 + 1,
                 0, 5, 0 + 10, 1, 10 + 12));
         expectedPerformances.add(createPerformance(11, 3, 0, 0, 0, 1,

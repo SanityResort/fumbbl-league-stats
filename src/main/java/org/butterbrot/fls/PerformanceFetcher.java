@@ -27,7 +27,7 @@ public class PerformanceFetcher {
     @Resource
     private JAXBContext jaxbContext;
 
-    public List<Performance> getPerformances(String groupId, String tournamentId) throws JAXBException {
+    public List<Performance> getPerformances(Integer groupId, Integer tournamentId) throws JAXBException {
         List<Performance> performances = new ArrayList<>();
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         for (Element element : loadPerformanceData(groupId, tournamentId)) {
@@ -36,7 +36,7 @@ public class PerformanceFetcher {
         return performances;
     }
 
-    private List<Element> loadPerformanceData(String groupId, String tournamentId) {
+    private List<Element> loadPerformanceData(Integer groupId, Integer tournamentId) {
         String pagingId = "0";
         List<Element> performanceElements = new ArrayList<>();
         while (pagingId != null) {

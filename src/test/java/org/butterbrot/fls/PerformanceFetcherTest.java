@@ -52,20 +52,20 @@ public class PerformanceFetcherTest {
     @Test
     public void getPerformances() throws Exception {
         when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>(loadFile(FILE_MATCHES_WITHOUT_PAGING), HttpStatus.OK));
-        List<Performance> actualPerformances = performanceFetcher.getPerformances("", "");
+        List<Performance> actualPerformances = performanceFetcher.getPerformances(0, 0);
         assertPerformances(expectedPerformances, actualPerformances);
     }
 
     @Test(expected = RestClientException.class)
     public void httpError() throws Exception {
         when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenThrow(new RestClientException("Expected exception"));
-        performanceFetcher.getPerformances("", "");
+        performanceFetcher.getPerformances(0, 0);
     }
 
     @Test
     public void noPaging() throws Exception {
         when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>(loadFile(FILE_MATCHES_WITHOUT_PAGING), HttpStatus.OK));
-        performanceFetcher.getPerformances("", "");
+        performanceFetcher.getPerformances(0, 0);
         verify(fumbblTemplate).getForEntity(any(URI.class), eq(String.class));
         verifyNoMoreInteractions(fumbblTemplate);
     }
@@ -74,7 +74,7 @@ public class PerformanceFetcherTest {
     public void paging() throws Exception {
         when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>(loadFile(FILE_MATCHES_WITH_PAGING), HttpStatus.OK))
                 .thenReturn(new ResponseEntity<String>(loadFile(FILE_MATCHES_WITHOUT_PAGING), HttpStatus.OK));
-        performanceFetcher.getPerformances("", "");
+        performanceFetcher.getPerformances(0, 0);
         verify(fumbblTemplate, times(2)).getForEntity(any(URI.class), eq(String.class));
         verifyNoMoreInteractions(fumbblTemplate);
     }
