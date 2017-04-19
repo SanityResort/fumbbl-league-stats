@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,6 +31,8 @@ public class Stats {
     @Resource
     private PerformanceMerger performanceMerger;
 
+    @Resource
+    private PerformanceEvaluator performanceEvaluator;
 
     @RequestMapping("/group/{groupId}/tournaments")
     public String getTournaments(@PathVariable int groupId, Model model) throws JAXBException {
@@ -42,9 +44,25 @@ public class Stats {
     }
 
     @RequestMapping("/performances")
-    public String getPerformances(@RequestParam Set<Integer> tournamentIds, @RequestParam Integer groupId, Model model){
+    public String getPerformances(@RequestParam Set<Integer> tournamentIds, @RequestParam Integer groupId, Model
+            model) {
 
-        List<Performance> performances = tournamentIds.parallelStream().flatMap(new Function<Integer, Stream<Performance>>() {
+        Set<Performance> performances = performanceMerger.merge(getPerformances(tournamentIds, groupId));
+
+        List<PerformancesWrapper> wrappers = new ArrayList<>();
+        for (PerformanceAspect aspect : PerformanceAspect.values()) {
+            wrappers.add(new PerformancesWrapper(performanceEvaluator.evaluate(performances, aspect, 10), aspect
+                    .getFieldName()));
+        }
+
+
+        model.addAttribute("wrappers", wrappers);
+
+        return "performances";
+    }
+
+    private List<Performance> getPerformances(Set<Integer> tournamentIds, Integer groupId) {
+        return tournamentIds.parallelStream().flatMap(new Function<Integer, Stream<Performance>>() {
             @Override
             public Stream<Performance> apply(Integer tournamentId) {
                 try {
@@ -54,10 +72,6 @@ public class Stats {
                 }
             }
         }).collect(Collectors.toList());
-
-        model.addAttribute("performances", performanceMerger.merge(performances));
-
-        return "performances";
     }
 
     public static void main(String[] args) throws Exception {
