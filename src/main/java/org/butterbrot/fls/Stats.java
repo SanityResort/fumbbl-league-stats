@@ -48,7 +48,28 @@ public class Stats {
     public String getTournaments(@RequestParam int groupId, Model model) throws JAXBException {
         List<Tournament> tournaments = tournamentFetcher.getTournaments(groupId);
         Collections.sort(tournaments);
-        model.addAttribute("tournaments", tournaments);
+        List<List<Tournament>> tournamentsList = new ArrayList<>();
+
+        int half = tournaments.size()/2;
+        List<Tournament> first = new ArrayList<>();
+        List<Tournament> second = new ArrayList<>();
+        List<Tournament> third = new ArrayList<>();
+
+        for (int i = 0; i<tournaments.size(); i++) {
+            if (i%3 == 0) {
+                first.add(tournaments.get(i));
+            } else if (i%3 == 1){
+                second.add(tournaments.get(i));
+            }else {
+                third.add(tournaments.get(i));
+            }
+        }
+
+        tournamentsList.add(first);
+        tournamentsList.add(second);
+        tournamentsList.add(third);
+        
+        model.addAttribute("tournamentsList", tournamentsList);
         model.addAttribute("groupId", groupId);
         return "tournaments";
     }

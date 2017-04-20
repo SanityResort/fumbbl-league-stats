@@ -16,7 +16,9 @@
                 <input type="submit" value="Generate Stats"/>
                 <input type="hidden" name="groupId" th:value="${groupId}"/>
             </div>
-            <table class="tournaments">
+            <div class="tournaments-wrapper">
+
+            <table th:each="tournaments : ${tournamentsList}" class="tournaments">
                 <tr>
                     <th></th>
                     <th>Tournament</th>
@@ -28,6 +30,7 @@
                     <td th:text="${tournament.season>0} ?  ${tournament.season} : '-'"></td>
                 </tr>
             </table>
+            </div>
         </form>
     </div>
 </div>

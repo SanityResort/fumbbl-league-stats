@@ -80,8 +80,15 @@ dt {
 }
 
 .tournaments {
+    flex: none;
     margin: auto;
     padding-top: 10px;
+}
+
+.tournaments-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .wrapper {
