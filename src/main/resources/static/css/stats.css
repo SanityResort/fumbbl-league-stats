@@ -1,6 +1,44 @@
 body {
-    background: slategrey;
-    color: #eee;
-    font-family: 'Economica', sans-serif;
+    background: #e6ddc7;
+    color: black;
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
     text-align: center;
+}
+
+.bronze {
+    background: #CD7F32;
+}
+
+.gold {
+    background: gold;
+}
+
+.header {
+    background: #363;
+    color: white;
+}
+
+.even {
+    background: #d6cdb7;
+}
+
+.silver {
+    background: silver;
+}
+
+table {
+    border: 2px solid black;
+    border-spacing: 0px;
+    width: 50%;
+}
+
+.title {
+    background: #392;
+    color: white;
+}
+
+td, th {
+    border: 1px solid black;
+    padding: 5px;
 }

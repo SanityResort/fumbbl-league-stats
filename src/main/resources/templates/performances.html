@@ -8,17 +8,19 @@
 </head>
 <body>
 <table class="wrapper" th:each="wrapper: ${wrappers}">
-    <tr>
+    <tbody>
+    <tr class="title">
         <td th:text="'Most ' + ${wrapper.title}" colspan="5"></td>
     </tr>
-    <tr>
+    <tr class="header">
         <th>#</th>
         <th>Player</th>
         <th>Team</th>
         <th th:text="${wrapper.title}"></th>
         <th th:if="${wrapper.tiebreakerTitle}" th:text="${wrapper.tiebreakerTitle}"></th>
     </tr>
-    <tr th:each="performance: ${wrapper.performances}">
+    <tr th:each="performance, indexStat: ${wrapper.performances}"
+        th:class="${indexStat.count==1}? 'gold' : (${indexStat.count==2}?'silver': (${indexStat.count==3}?'bronze':(${indexStat.even}? 'even')))">
         <td th:text="${performance.place}"></td>
         <td><a th:text="${performance.playerName}"
                th:href="'https://fumbbl.com/p/player?player_id='+${performance.playerId}"></a>
@@ -27,6 +29,7 @@
         <td th:text="${performance.value}"></td>
         <td th:if="${wrapper.tiebreakerTitle}" th:text="${performance.tiebreaker}"></td>
     </tr>
+    </tbody>
 </table>
 </body>
 </html>
