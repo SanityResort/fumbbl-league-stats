@@ -6,8 +6,8 @@
     <link rel="stylesheet" th:href="@{/css/stats.css}" type="text/css"/>
     <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
 </head>
-<body>
-<table class="wrapper" th:each="wrapper: ${wrappers}">
+<body class="container">
+<table th:each="wrapper: ${wrappers}">
     <tbody>
     <tr class="title">
         <td th:text="'Most ' + ${wrapper.title}" colspan="5"></td>

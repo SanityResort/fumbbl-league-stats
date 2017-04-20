@@ -62,7 +62,7 @@ public class Stats {
         List<PerformancesWrapper> wrappers = new ArrayList<>();
         Set<PerformanceValue> selectedPerformances = new HashSet<>();
 
-        for (PerformanceAspect aspect : PerformanceAspect.values()) {
+        for (PerformanceAspect aspect : PerformanceAspect.orderedValues()) {
             List<PerformanceValue> sortedPerformances = performanceEvaluator.evaluate(performances, aspect, 10);
 
             selectedPerformances.addAll(sortedPerformances);

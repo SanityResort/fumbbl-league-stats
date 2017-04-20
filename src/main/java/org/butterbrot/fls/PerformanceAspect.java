@@ -1,5 +1,8 @@
 package org.butterbrot.fls;
 
+import java.util.ArrayList;
+import java.util.List;
+
 enum PerformanceAspect {
     BLOCKS("Blocks Thrown", new BlocksAccessor(), "Played Turns", new TurnsAccessor()),
     CASUALTIES("Casualties Caused", new CasualtiesAccessor(), "Blocks Thrown", new BlocksAccessor()),
@@ -56,6 +59,10 @@ enum PerformanceAspect {
 
     public String getTieBreakerTitle() {
         return tieBreakerTitle;
+    }
+
+    public static PerformanceAspect[] orderedValues(){
+        return new PerformanceAspect[]{CASUALTIES, BLOCKS, COMPLETIONS, PASSING, TOUCHDOWNS, RUSHING, SPPS, MVPS, FOULS, TURNS, INTERCEPTIONS};
     }
 
     private interface AspectAccessor {

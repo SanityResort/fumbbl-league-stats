@@ -10,6 +10,12 @@ body {
     background: #CD7F32;
 }
 
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 .gold {
     background: gold;
 }
@@ -30,7 +36,9 @@ body {
 table {
     border: 2px solid black;
     border-spacing: 0px;
-    width: 50%;
+    flex: none;
+    margin-bottom: 10px;
+    width: 49%;
 }
 
 .title {
