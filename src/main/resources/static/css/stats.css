@@ -1,19 +1,57 @@
 body {
-    background: #e6ddc7;
-    color: black;
-    font-family: 'Arial', sans-serif;
-    font-size: 13px;
-    text-align: center;
+    background: #155d1e;
+    padding: 0px 5% 2px 5%;
+}
+
+.bordered {
+    border: 1px solid black;
+    padding: 5px;
 }
 
 .bronze {
     background: #CD7F32;
 }
 
+.center {
+    text-align: center;
+}
+
 .container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+.content {
+    background: #e6ddc7;
+    border: 2px solid black;
+    border-radius: 20px;
+    color: black;
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    padding: 20px 0px;
+    text-align: center;
+}
+
+.description {
+    background: #d6cdb7;
+    border: 2px solid black;
+    border-radius: 20px;
+    margin: 10px auto 0px auto;
+    max-width: 80%;
+    padding: 10px;
+}
+
+.left {
+    text-align: left;
+}
+
+dt {
+    font-weight: bold;
+}
+
+.even {
+    background: #d6cdb7;
 }
 
 .gold {
@@ -25,20 +63,11 @@ body {
     color: white;
 }
 
-.even {
-    background: #d6cdb7;
+.padded {
+    padding: 5px;
 }
-
 .silver {
     background: silver;
-}
-
-table {
-    border: 2px solid black;
-    border-spacing: 0px;
-    flex: none;
-    margin-bottom: 10px;
-    width: 49%;
 }
 
 .title {
@@ -46,7 +75,19 @@ table {
     color: white;
 }
 
-td, th {
-    border: 1px solid black;
-    padding: 5px;
+.tournaments-button {
+    margin: auto;
+}
+
+.tournaments {
+    margin: auto;
+    padding-top: 10px;
+}
+
+.wrapper {
+    border: 2px solid black;
+    border-spacing: 0px;
+    flex: none;
+    margin-bottom: 10px;
+    width: 49%;
 }

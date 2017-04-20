@@ -7,14 +7,29 @@
     <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
 </head>
 <body>
-<form action="#" th:action="@{/performances}">
-    <input type="submit"/>
-    <input type="hidden" name="groupId" th:value="${groupId}"/>
-    <div th:each="tournament : ${tournaments}">
-        <input type="checkbox" name="tournamentIds" th:value="${tournament.id}" th:id="${tournament.id}"/>
-        <label th:for="${tournament.id}" th:text="${tournament.name} + ' - ' + ${tournament.season}"></label>
+<div class="content">
+    <h2>Tournament selection</h2>
+    <div class="description center">
+        <p>Select all tournaments to include in the stats calculation.</p>
+        <form action="#" th:action="@{/performances}">
+            <div class="tournaments-button">
+                <input type="submit" value="Generate Stats"/>
+                <input type="hidden" name="groupId" th:value="${groupId}"/>
+            </div>
+            <table class="tournaments">
+                <tr>
+                    <th></th>
+                    <th>Tournament</th>
+                    <th>Season</th>
+                </tr>
+                <tr th:each="tournament : ${tournaments}">
+                    <td><input type="checkbox" name="tournamentIds" th:value="${tournament.id}" th:id="${tournament.id}"/></td>
+                    <td th:text="${tournament.name}"></td>
+                    <td th:text="${tournament.season>0} ?  ${tournament.season} : '-'"></td>
+                </tr>
+            </table>
+        </form>
     </div>
-
-</form>
+</div>
 </body>
 </html>

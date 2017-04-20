@@ -7,11 +7,63 @@
     <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
 </head>
 <body>
-<form action="#" th:action="@{/tournaments}">
-    <input type="submit"/>
-    <input type="text" name="groupId" id="groupId" th:value="${groupId}"/>
-    <label th:for="groupId">Insert GroupId</label>
+<div class="content">
+    <h1>FUMBBL League Stats Generator</h1>
 
-</form>
+    <form action="#" th:action="@{/tournaments}">
+        <label th:for="groupId">GroupId:</label>
+        <input type="text" name="groupId" id="groupId" th:value="${groupId}"/>
+        <input type="submit" value="Load Tournaments"/>
+    </form>
+
+    <div class="description left">
+        <h2>How it works</h2>
+        <p>To generate stats for a FUMBBL league, first enter the id of the corresponding group in the form above.</p>
+
+        <p>On the next screen select all tournaments to be included in the stats calculation. This allows to create
+            overall
+            stats for several division in a single league.</p>
+
+        <p>On the final screen several tables are displayed, one for each of the following stats:</p>
+
+        <p>In case players are tied for a stat and the corresponding tie breaker, both are assigned the same place
+            number.
+            The order in the table is random in this case. Every league commissioner has to decide how to handle those
+            ties.</p>
+
+        <h2>Available Stats</h2>
+        <dl>
+            <dt>Most Cas</dt>
+            <dd>The players that caused the most casualties, tie breaker is the total amount of blocks thrown (ASC).
+            </dd>
+            <dt>Most Blocks</dt>
+            <dd>The players that threw the most blocks, tie breaker is the total amount of turns played (ASC).</dd>
+            <dt>Most Completions</dt>
+            <dd>The players that threw the most completions, tie breaker is the total amount of passed yards (DSC).</dd>
+            <dt>Most Passing Yards</dt>
+            <dd>The players that passed the most yards, tie breaker is the total amount of completions (ASC).</dd>
+            <dt>Most Blocks</dt>
+            <dd>The players that threw the most Blocks, tie breaker is the total amount of turns played (ASC).</dd>
+            <dt>Most Touchdowns</dt>
+            <dd>The players that scored the most Touchdowns, tie breaker is the total amount of turns played (ASC).</dd>
+            <dt>Most Rushing Yards</dt>
+            <dd>The players that rushed the most yards with the ball, tie breaker is the total amount of turns played
+                (ASC).
+            </dd>
+            <dt>Most Spps</dt>
+            <dd>The players that earned the most spps, tie breaker is the total amount of mvps received (ASC).</dd>
+            <dt>Most MVPs</dt>
+            <dd>The players that recevied the most mvps, no tie breaker.</dd>
+            <dt>Most Fouls</dt>
+            <dd>The players that committed the most fouls, tie breaker is the total amount of turns played (ASC).</dd>
+            <dt>Most Turns</dt>
+            <dd>The players that played the most turns, no tie breaker.</dd>
+            <dt>Most Interceptions</dt>
+            <dd>The players that caught the most interceptions, tie breaker is the total amount of turns played (ASC).
+            </dd>
+        </dl>
+
+    </div>
+</div>
 </body>
 </html>

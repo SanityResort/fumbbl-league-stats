@@ -6,30 +6,33 @@
     <link rel="stylesheet" th:href="@{/css/stats.css}" type="text/css"/>
     <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
 </head>
-<body class="container">
-<table th:each="wrapper: ${wrappers}">
+<body>
+<div class="container content">
+
+<table class="wrapper" th:each="wrapper: ${wrappers}">
     <tbody>
     <tr class="title">
-        <td th:text="'Most ' + ${wrapper.title}" colspan="5"></td>
+        <td th:text="'Most ' + ${wrapper.title}" colspan="5" class="padded"></td>
     </tr>
     <tr class="header">
-        <th>#</th>
-        <th>Player</th>
-        <th>Team</th>
-        <th th:text="${wrapper.title}"></th>
-        <th th:if="${wrapper.tiebreakerTitle}" th:text="${wrapper.tiebreakerTitle}"></th>
+        <th class="bordered">#</th>
+        <th class="bordered">Player</th>
+        <th class="bordered">Team</th>
+        <th class="bordered" th:text="${wrapper.title}"></th>
+        <th class="bordered" th:if="${wrapper.tiebreakerTitle}" th:text="${wrapper.tiebreakerTitle}"></th>
     </tr>
     <tr th:each="performance, indexStat: ${wrapper.performances}"
         th:class="${indexStat.count==1}? 'gold' : (${indexStat.count==2}?'silver': (${indexStat.count==3}?'bronze':(${indexStat.even}? 'even')))">
-        <td th:text="${performance.place}"></td>
-        <td><a th:text="${performance.playerName}"
+        <td class="bordered" th:text="${performance.place}"></td>
+        <td class="bordered"><a th:text="${performance.playerName}"
                th:href="'https://fumbbl.com/p/player?player_id='+${performance.playerId}"></a>
         </td>
-        <td><a th:text="${performance.teamName}" th:href="'https://fumbbl.com'+${performance.teamUrlPath}"></a></td>
-        <td th:text="${performance.value}"></td>
-        <td th:if="${wrapper.tiebreakerTitle}" th:text="${performance.tiebreaker}"></td>
+        <td class="bordered"><a th:text="${performance.teamName}" th:href="'https://fumbbl.com'+${performance.teamUrlPath}"></a></td>
+        <td class="bordered" th:text="${performance.value}"></td>
+        <td class="bordered" th:if="${wrapper.tiebreakerTitle}" th:text="${performance.tiebreaker}"></td>
     </tr>
     </tbody>
 </table>
+</div>
 </body>
 </html>
