@@ -30,7 +30,7 @@ public class TournamentFetcher {
         List<Tournament> tournaments = new ArrayList<>();
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         for (Element element : loadTournamentData(groupId)) {
-            tournaments.add((Tournament) unmarshaller.unmarshal(new StringReader(element.outerHtml())));
+            tournaments.add((Tournament) unmarshaller.unmarshal(new StringReader(element.outerHtml().replace("&nbsp;", " "))));
         }
         return tournaments;
     }
@@ -44,7 +44,6 @@ public class TournamentFetcher {
         String response = responseEntity.getBody();
         if (StringUtils.hasText(response)) {
             Document doc = Jsoup.parse(response);
-
             tournamentElements.addAll(doc.getElementsByTag("tournament"));
         }
         return tournamentElements;
