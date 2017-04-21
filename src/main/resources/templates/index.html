@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="content">
-    <h1>FUMBBL League Stats Generator</h1>
+    <h1>FUMBBL League Stats Generator <strong class="author">(by Candlejack)</strong></h1>
 
     <form action="#" th:action="@{/tournaments}">
         <label th:for="groupId">GroupId:</label>
@@ -17,18 +17,44 @@
     </form>
 
     <div class="description left">
+        <h2>What is this?</h2>
+        <p>This application is meant to help league commissioners on FUMBBL to provide player stats for their leagues,
+            like "Most Touchdowns" or "Most Casualties".</p>
+
+        <p>I am aware that there are <a href="https://fumbbl.com/~Shraaaag">Shraaaag's</a> <a
+                href="http://www.pvv.ntnu.no/~brill/fumbbl/">awesome scripts</a> out there, that
+            people are using for this. The issue is that you still have to do a lot manual work using the different
+            script calls and in my experience the server hosting the scripts seems to have some issues lately. so I
+            figured I build something new for this specific purpose.</p>
+
+        <p>This is not an official FUMMBL application, so if you have issues with it, do not bother Christer or
+            other
+            FUMBBL staff. Instead you have to contact <a href="https://fumbbl.com/~Candlejack">me (Candlejack)</a>
+            to sort it
+            out.</p>
+
         <h2>How it works</h2>
-        <p>To generate stats for a FUMBBL league, first enter the id of the corresponding group in the form above.</p>
+        <p>To generate stats for a FUMBBL league, first enter the id of the corresponding group in the form
+            above.</p>
 
         <p>On the next screen select all tournaments to be included in the stats calculation. This allows to create
             overall
             stats for several division in a single league.</p>
 
-        <p>On the final screen several tables are displayed, one for each of the following stats:</p>
+        <p>On the final screen several tables are displayed, one for each of the available stats (see below). When
+            hovering over a table you get a button to copy the table as bbcode to your clipboard. You can paste this
+            code to your group page on FUMBBL to have the table available there.</p>
+
+        <p>It is highly recommended to use this feature instead of redirecting all league members to this site, as
+            the
+            calculation causes load on FUMBBL. If this should cause performance issues on FUMBBL this application
+            will
+            be taken down.</p>
 
         <p>In case players are tied for a stat and the corresponding tie breaker, both are assigned the same place
             number.
-            The order in the table is random in this case. Every league commissioner has to decide how to handle those
+            The order in the table is random in this case. Every league commissioner has to decide how to handle
+            those
             ties.</p>
 
         <h2>Available Stats</h2>
@@ -39,15 +65,20 @@
             <dt>Most Blocks</dt>
             <dd>The players that threw the most blocks, tie breaker is the total amount of turns played (ASC).</dd>
             <dt>Most Completions</dt>
-            <dd>The players that threw the most completions, tie breaker is the total amount of passed yards (DSC).</dd>
+            <dd>The players that threw the most completions, tie breaker is the total amount of passed yards
+                (DSC).
+            </dd>
             <dt>Most Passing Yards</dt>
             <dd>The players that passed the most yards, tie breaker is the total amount of completions (ASC).</dd>
             <dt>Most Blocks</dt>
             <dd>The players that threw the most Blocks, tie breaker is the total amount of turns played (ASC).</dd>
             <dt>Most Touchdowns</dt>
-            <dd>The players that scored the most Touchdowns, tie breaker is the total amount of turns played (ASC).</dd>
+            <dd>The players that scored the most Touchdowns, tie breaker is the total amount of turns played
+                (ASC).
+            </dd>
             <dt>Most Rushing Yards</dt>
-            <dd>The players that rushed the most yards with the ball, tie breaker is the total amount of turns played
+            <dd>The players that rushed the most yards with the ball, tie breaker is the total amount of turns
+                played
                 (ASC).
             </dd>
             <dt>Most Spps</dt>
@@ -55,11 +86,13 @@
             <dt>Most MVPs</dt>
             <dd>The players that recevied the most mvps, no tie breaker.</dd>
             <dt>Most Fouls</dt>
-            <dd>The players that committed the most fouls, tie breaker is the total amount of turns played (ASC).</dd>
+            <dd>The players that committed the most fouls, tie breaker is the total amount of turns played (ASC).
+            </dd>
             <dt>Most Turns</dt>
             <dd>The players that played the most turns, no tie breaker.</dd>
             <dt>Most Interceptions</dt>
-            <dd>The players that caught the most interceptions, tie breaker is the total amount of turns played (ASC).
+            <dd>The players that caught the most interceptions, tie breaker is the total amount of turns played
+                (ASC).
             </dd>
         </dl>
 
