@@ -1,5 +1,11 @@
+.bbcode {
+    display: none;
+}
+
 body {
     background: #155d1e;
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
     padding: 0px 5% 2px 5%;
 }
 
@@ -42,10 +48,6 @@ body {
     padding: 10px;
 }
 
-.left {
-    text-align: left;
-}
-
 dt {
     font-weight: bold;
 }
@@ -63,9 +65,39 @@ dt {
     color: white;
 }
 
+.left {
+    text-align: left;
+}
+
+.message {
+    background: #c1b874;
+    border: 1px solid black;
+    border-radius: 10px;
+    bottom: 0;
+    color: black;
+    display: none;
+    height: 1em;
+    left: 0;
+    margin: auto;
+    padding: 1em;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 20em;
+}
+
 .padded {
     padding: 5px;
 }
+
+.perf-table {
+    border: 2px solid black;
+    border-spacing: 0px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
 .silver {
     background: silver;
 }
@@ -92,9 +124,13 @@ dt {
 }
 
 .wrapper {
-    border: 2px solid black;
-    border-spacing: 0px;
     flex: none;
-    margin-bottom: 10px;
     width: 49%;
+}
+
+@media(max-width:900px) {
+    .wrapper {
+        flex: none;
+        width: 98%;
+    }
 }

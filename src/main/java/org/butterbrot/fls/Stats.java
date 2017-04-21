@@ -39,6 +39,9 @@ public class Stats {
     @Resource
     private PlayerFetcher playerFetcher;
 
+    @Resource
+    private BBCodeBuilder bbCodeBuilder;
+
     @RequestMapping("/")
     public String index(){
         return "index";
@@ -50,7 +53,6 @@ public class Stats {
         Collections.sort(tournaments);
         List<List<Tournament>> tournamentsList = new ArrayList<>();
 
-        int half = tournaments.size()/2;
         List<Tournament> first = new ArrayList<>();
         List<Tournament> second = new ArrayList<>();
         List<Tournament> third = new ArrayList<>();
@@ -68,7 +70,7 @@ public class Stats {
         tournamentsList.add(first);
         tournamentsList.add(second);
         tournamentsList.add(third);
-        
+
         model.addAttribute("tournamentsList", tournamentsList);
         model.addAttribute("groupId", groupId);
         return "tournaments";
@@ -96,6 +98,13 @@ public class Stats {
             @Override
             public void accept(PerformanceValue performance) {
                 playerFetcher.populate(performance);
+            }
+        });
+
+        wrappers.forEach(new Consumer<PerformancesWrapper>() {
+            @Override
+            public void accept(PerformancesWrapper performancesWrapper) {
+                bbCodeBuilder.populate(performancesWrapper);
             }
         });
 

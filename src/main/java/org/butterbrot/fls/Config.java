@@ -44,4 +44,8 @@ public class Config {
     public PlayerFetcher playerFetcher() {
         return new PlayerFetcher();
     }
+    @Bean
+    public BBCodeBuilder bbCodeBuilder(){
+        return new BBCodeBuilder();
+    }
 }

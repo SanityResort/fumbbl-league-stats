@@ -5,34 +5,68 @@
     <title>Fumbbl League Stats - Performances</title>
     <link rel="stylesheet" th:href="@{/css/stats.css}" type="text/css"/>
     <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
+    <script th:src="@{/js/clipboard.js}"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="container content">
-
-<table class="wrapper" th:each="wrapper: ${wrappers}">
-    <tbody>
-    <tr class="title">
-        <td th:text="'Most ' + ${wrapper.title}" colspan="5" class="padded"></td>
-    </tr>
-    <tr class="header">
-        <th class="bordered">#</th>
-        <th class="bordered">Player</th>
-        <th class="bordered">Team</th>
-        <th class="bordered" th:text="${wrapper.title}"></th>
-        <th class="bordered" th:if="${wrapper.tiebreakerTitle}" th:text="${wrapper.tiebreakerTitle}"></th>
-    </tr>
-    <tr th:each="performance, indexStat: ${wrapper.performances}"
-        th:class="${indexStat.count==1}? 'gold' : (${indexStat.count==2}?'silver': (${indexStat.count==3}?'bronze':(${indexStat.even}? 'even')))">
-        <td class="bordered" th:text="${performance.place}"></td>
-        <td class="bordered"><a th:text="${performance.playerName}"
-               th:href="'https://fumbbl.com/p/player?player_id='+${performance.playerId}"></a>
-        </td>
-        <td class="bordered"><a th:text="${performance.teamName}" th:href="'https://fumbbl.com'+${performance.teamUrlPath}"></a></td>
-        <td class="bordered" th:text="${performance.value}"></td>
-        <td class="bordered" th:if="${wrapper.tiebreakerTitle}" th:text="${performance.tiebreaker}"></td>
-    </tr>
-    </tbody>
-</table>
+<div class="message" id="success">
+    BBCode copied to Clipboard
 </div>
+<div class="message" id="error">
+    Could not copy to Clipboard
+</div>
+<div class="container content">
+    <div class="wrapper" th:each="wrapper,wrapperStat : ${wrappers}">
+        <button class="btn" th:attr="data-clipboard-text=${wrapper.bbCode}">
+            Copy bbcode to clipboard
+        </button>
+        <table class="perf-table">
+            <tbody>
+            <tr class="title">
+                <td th:text="'Most ' + ${wrapper.title}" colspan="5" class="padded"></td>
+            </tr>
+            <tr class="header">
+                <th class="bordered">#</th>
+                <th class="bordered">Player</th>
+                <th class="bordered">Team</th>
+                <th class="bordered" th:text="${wrapper.title}"></th>
+                <th class="bordered" th:if="${wrapper.tiebreakerTitle}" th:text="${wrapper.tiebreakerTitle}"></th>
+            </tr>
+            <tr th:each="performance, perfStat: ${wrapper.performances}"
+                th:class="${perfStat.count==1}? 'gold' : (${perfStat.count==2}?'silver': (${perfStat.count==3}?'bronze':(${perfStat.even}? 'even')))">
+                <td class="bordered" th:text="${performance.place}"></td>
+                <td class="bordered"><a th:text="${performance.playerName}"
+                                        th:href="'https://fumbbl.com/p/player?player_id='+${performance.playerId}"></a>
+                </td>
+                <td class="bordered"><a th:text="${performance.teamName}"
+                                        th:href="'https://fumbbl.com'+${performance.teamUrlPath}"></a></td>
+                <td class="bordered" th:text="${performance.value}"></td>
+                <td class="bordered" th:if="${wrapper.tiebreakerTitle}" th:text="${performance.tiebreaker}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+(function() {
+    let fade = function(selector){
+        $(selector).fadeIn();
+        setTimeout(function(){$(selector).fadeOut()}, 1000)
+    }
+
+    var clipboard = new Clipboard('.btn');
+
+    clipboard.on('success', function(e) {
+        fade('#success');
+    });
+
+    clipboard.on('error', function(e) {
+        fade('#error');
+    });
+})();
+</script>
 </body>
 </html>
