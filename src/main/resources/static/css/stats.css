@@ -18,6 +18,18 @@ body {
     background: #CD7F32;
 }
 
+.btn {
+    visibility: hidden;
+    position: relative;
+    float: right;
+    right: 5px;
+    top: 25px;
+}
+
+div:hover > .btn {
+    visibility: visible;
+}
+
 .center {
     text-align: center;
 }
@@ -35,7 +47,7 @@ body {
     color: black;
     font-family: 'Arial', sans-serif;
     font-size: 13px;
-    padding: 20px 0px;
+    padding-bottom: 20px;
     text-align: center;
 }
 
@@ -94,7 +106,6 @@ dt {
 .perf-table {
     border: 2px solid black;
     border-spacing: 0px;
-    margin-bottom: 10px;
     width: 100%;
 }
 
