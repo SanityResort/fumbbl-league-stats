@@ -31,7 +31,9 @@ public class PerformanceFetcher {
         List<Performance> performances = new ArrayList<>();
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         for (Element element : loadPerformanceData(groupId, tournamentId)) {
-            performances.add((Performance) unmarshaller.unmarshal(new StringReader(element.outerHtml().replace("&nbsp;", " "))));
+            try (StringReader reader = new StringReader(element.outerHtml().replace("&nbsp;", " "))){
+                performances.add((Performance) unmarshaller.unmarshal(reader));
+            }
         }
         return performances;
     }

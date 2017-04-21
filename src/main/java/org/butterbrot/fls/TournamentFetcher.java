@@ -30,7 +30,9 @@ public class TournamentFetcher {
         List<Tournament> tournaments = new ArrayList<>();
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         for (Element element : loadTournamentData(groupId)) {
-            tournaments.add((Tournament) unmarshaller.unmarshal(new StringReader(element.outerHtml().replace("&nbsp;", " "))));
+            try (StringReader reader = new StringReader(element.outerHtml().replace("&nbsp;", " "))) {
+                tournaments.add((Tournament) unmarshaller.unmarshal(reader));
+            }
         }
         return tournaments;
     }
