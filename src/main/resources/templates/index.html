@@ -10,7 +10,7 @@
 <div class="content">
     <h1>FUMBBL League Stats Generator <strong class="author">(by Candlejack)</strong></h1>
 
-    <form action="#" th:action="@{/tournaments}">
+    <form action="#" th:action="@{/tournaments}" method="POST">
         <label th:for="groupId">GroupId:</label>
         <input type="text" name="groupId" id="groupId" th:value="${groupId}"/>
         <input type="submit" value="Load Tournaments"/>

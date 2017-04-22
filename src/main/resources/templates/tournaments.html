@@ -16,7 +16,7 @@
     <div class="description center">
         <p class="selection-description">Select all tournaments to include in the stats calculation.</p>
         <div class="label-wrapper"><label> Select all <input type="checkbox" id="all"/></label></div>
-        <form action="#" th:action="@{/performances}">
+        <form action="#" th:action="@{/performances}" method="POST">
             <div class="tournaments-button">
                 <input type="submit" value="Generate Stats"/>
                 <input type="hidden" name="groupId" th:value="${groupId}"/>
