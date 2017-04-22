@@ -81,6 +81,9 @@ dt {
     background: #363;
     color: white;
 }
+.label-wrapper {
+    padding-bottom: 10px;
+}
 
 .left {
     text-align: left;
@@ -112,6 +115,10 @@ dt {
     border: 2px solid black;
     border-spacing: 0px;
     width: 100%;
+}
+
+.selection-description {
+    margin-bottom: 0px;
 }
 
 .silver {

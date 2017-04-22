@@ -5,12 +5,17 @@
     <title>Fumbbl League Stats - Tournament Listing</title>
     <link rel="stylesheet" th:href="@{/css/stats.css}" type="text/css"/>
     <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="content">
     <h2>Tournament selection</h2>
     <div class="description center">
-        <p>Select all tournaments to include in the stats calculation.</p>
+        <p class="selection-description">Select all tournaments to include in the stats calculation.</p>
+        <div class="label-wrapper"><label> Select all <input type="checkbox" id="all"/></label></div>
         <form action="#" th:action="@{/performances}">
             <div class="tournaments-button">
                 <input type="submit" value="Generate Stats"/>
@@ -34,5 +39,10 @@
         </form>
     </div>
 </div>
+<script>
+    $('#all').on('click', function(){
+        $('form input[type=checkbox]').prop('checked',  $('#all').prop('checked'))
+    })
+</script>
 </body>
 </html>
