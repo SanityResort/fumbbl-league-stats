@@ -2,14 +2,12 @@ package org.butterbrot.fls;
 
 import org.springframework.util.StringUtils;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "tournament")
-public class Tournament implements Comparable{
+public class Tournament implements Comparable {
 
     private int id;
 
@@ -17,17 +15,22 @@ public class Tournament implements Comparable{
 
     private int season;
 
+    private String groupName;
+    private int groupId;
+
     private Tournament() {
         // jaxb
     }
 
-    public Tournament(int id, String name, int season) {
+    public Tournament(int id, String name, int season, String groupName, int groupId) {
         this.id = id;
         this.name = name;
         this.season = season;
+        this.groupName = groupName;
+        this.groupId = groupId;
     }
 
-    @XmlAttribute(name="id")
+    @XmlAttribute(name = "id")
     public int getId() {
         return id;
     }
@@ -56,34 +59,50 @@ public class Tournament implements Comparable{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Tournament that = (Tournament) o;
 
-        if (id != that.id)
-            return false;
-        if (season != that.season)
-            return false;
-        return name.equals(that.name);
+        if (id != that.id) return false;
+        if (season != that.season) return false;
+        if (groupId != that.groupId) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        return groupName != null ? groupName.equals(that.groupName) : that.groupName == null;
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + name.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + season;
+        result = 31 * result + (groupName != null ? groupName.hashCode() : 0);
+        result = 31 * result + groupId;
         return result;
     }
 
     @Override
     public int compareTo(Object o) {
-        if ( o != null && o instanceof Tournament) {
+        if (o != null && o instanceof Tournament) {
             Tournament that = (Tournament) o;
             return Integer.valueOf(that.getId()).compareTo(this.getId());
         }
         return -1;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 }

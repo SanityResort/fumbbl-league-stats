@@ -46,7 +46,7 @@ public class TournamentFetcherTest {
     @Test
     public void getTournaments() throws Exception{
         when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>(loadFile(FILE_TOURNAMENTS), HttpStatus.OK));
-        List<Tournament> actualTournaments = tournamentFetcher.getTournaments(0);
+        List<Tournament> actualTournaments = tournamentFetcher.getTournaments(1234);
         assertEquals("Size of tournaments did not match", expectedTournaments.size(), actualTournaments.size());
         for (Tournament tournament: expectedTournaments) {
             assertTrue("Tournament not found for id: " + tournament.getId(), actualTournaments.contains(tournament));
@@ -61,11 +61,11 @@ public class TournamentFetcherTest {
 
     private static Set<Tournament> expectedTournaments() {
         Set<Tournament> tournaments = new HashSet<>();
-        tournaments.add(new Tournament(1, "Grotty Little Tournament I", 1));
-        tournaments.add(new Tournament(2, "Grotty Little Tournament II", 2));
-        tournaments.add(new Tournament(3, "Grotty Little Tournament III", 3));
-        tournaments.add(new Tournament(4, "Grotty Little Tournament IV", 4));
-        tournaments.add(new Tournament(5, "Grotty Little Tournament V", 5));
+        tournaments.add(new Tournament(1, "Grotty Little Tournament I", 1, "Grotty Little Tournament", 1234));
+        tournaments.add(new Tournament(2, "Grotty Little Tournament II", 2, "Grotty Little Tournament", 1234));
+        tournaments.add(new Tournament(3, "Grotty Little Tournament III", 3, "Grotty Little Tournament", 1234));
+        tournaments.add(new Tournament(4, "Grotty Little Tournament IV", 4, "Grotty Little Tournament", 1234));
+        tournaments.add(new Tournament(5, "Grotty Little Tournament V", 5, "Grotty Little Tournament", 1234));
         return tournaments;
     }
 }

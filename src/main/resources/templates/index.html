@@ -11,8 +11,8 @@
     <h1>FUMBBL League Stats Generator <strong class="author">(by Candlejack)</strong></h1>
 
     <form action="#" th:action="@{/tournaments}" method="POST">
-        <label th:for="groupId">GroupId:</label>
-        <input type="text" name="groupId" id="groupId" th:value="${groupId}"/>
+        <label th:for="groupIds">GroupIds:</label>
+        <input type="text" name="groupIds" id="groupIds"/>
         <input type="submit" value="Load Tournaments"/>
     </form>
 
@@ -34,8 +34,8 @@
             out.</p>
 
         <h2>How it works</h2>
-        <p>To generate stats for a FUMBBL league, first enter the id of the corresponding group in the form
-            above.</p>
+        <p>To generate stats for a FUMBBL league, first enter the ids of the corresponding groups in the form
+            above. The ids must be separated by commas.</p>
 
         <p>On the next screen select all tournaments to be included in the stats calculation. This allows to create
             overall

@@ -19,6 +19,19 @@ body {
     padding: 5px;
 }
 
+.bordered-row > td {
+    border-bottom: 1px black solid;
+    border-top: 1px black solid;
+}
+
+.bordered-row > td:first-child {
+    border-left: 1px black solid;
+}
+
+.bordered-row > td:last-child {
+    border-right: 1px black solid;
+}
+
 .bronze {
     background: #CD7F32;
 }
@@ -71,6 +84,11 @@ dt {
 
 .even {
     background: #d6cdb7;
+}
+
+.group-name {
+    font-weight: lighter;
+    font-size: xx-small;
 }
 
 .gold {
@@ -130,14 +148,23 @@ dt {
     color: white;
 }
 
+.tournament-name {
+    display: block;
+}
+
+.tournaments {
+    border-spacing: 0px;
+    flex: none;
+    margin: auto;
+    padding-top: 10px;
+}
+
 .tournaments-button {
     margin: auto;
 }
 
-.tournaments {
-    flex: none;
-    margin: auto;
-    padding-top: 10px;
+.tournaments .even {
+    background: #e6ddc7;
 }
 
 .tournaments-wrapper {

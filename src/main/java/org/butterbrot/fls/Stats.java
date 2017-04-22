@@ -1,9 +1,12 @@
 package org.butterbrot.fls;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +26,8 @@ import java.util.stream.Stream;
 @Controller
 @SpringBootApplication
 public class Stats {
+
+    private static final Logger logger = LoggerFactory.getLogger(Stats.class);
 
     @Resource
     private TournamentFetcher tournamentFetcher;
@@ -48,8 +53,15 @@ public class Stats {
     }
 
     @RequestMapping("/tournaments")
-    public String getTournaments(@RequestParam int groupId, Model model) throws JAXBException {
-        List<Tournament> tournaments = tournamentFetcher.getTournaments(groupId);
+    public String getTournaments(@RequestParam String groupIds, Model model) throws JAXBException {
+        List<Tournament> tournaments = new ArrayList<>();
+        for (String groupId: groupIds.split(",")) {
+            try {
+                tournaments.addAll(tournamentFetcher.getTournaments(Integer.valueOf(StringUtils.trimWhitespace(groupId))));
+            } catch (NumberFormatException ex) {
+                logger.error("Could not format groupId '{}'. Reason: {}", groupId, ex.getMessage());
+            }
+        }
         Collections.sort(tournaments);
         List<List<Tournament>> tournamentsList = new ArrayList<>();
 
@@ -72,15 +84,14 @@ public class Stats {
         tournamentsList.add(third);
 
         model.addAttribute("tournamentsList", tournamentsList);
-        model.addAttribute("groupId", groupId);
         return "tournaments";
     }
 
     @RequestMapping("/performances")
-    public String getPerformances(@RequestParam Set<Integer> tournamentIds, @RequestParam Integer groupId, Model
+    public String getPerformances(@RequestParam Set<String> tournamentIds, Model
             model) {
 
-        Set<Performance> performances = performanceMerger.merge(getPerformances(tournamentIds, groupId));
+        Set<Performance> performances = performanceMerger.merge(getPerformances(tournamentIds));
 
         List<PerformancesWrapper> wrappers = new ArrayList<>();
         Set<PerformanceValue> selectedPerformances = new HashSet<>();
@@ -113,14 +124,15 @@ public class Stats {
         return "performances";
     }
 
-    private List<Performance> getPerformances(Set<Integer> tournamentIds, Integer groupId) {
-        return tournamentIds.parallelStream().flatMap(new Function<Integer, Stream<Performance>>() {
+    private List<Performance> getPerformances(Set<String> combinedIds) {
+        return combinedIds.parallelStream().flatMap(new Function<String, Stream<Performance>>() {
             @Override
-            public Stream<Performance> apply(Integer tournamentId) {
+            public Stream<Performance> apply(String combinedId) {
+                String[] splitIds = combinedId.split("_");
                 try {
-                    return performanceFetcher.getPerformances(groupId, tournamentId).stream();
+                    return performanceFetcher.getPerformances(Integer.valueOf(splitIds[0]), Integer.valueOf(splitIds[1])).stream();
                 } catch (JAXBException e) {
-                    throw new IllegalStateException("Could not load performance data for tournament: " + tournamentId);
+                    throw new IllegalStateException("Could not load performance data for tournament: " + splitIds[1]);
                 }
             }
         }).collect(Collectors.toList());

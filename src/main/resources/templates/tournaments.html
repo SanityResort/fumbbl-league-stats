@@ -19,22 +19,26 @@
         <form action="#" th:action="@{/performances}" method="POST">
             <div class="tournaments-button">
                 <input type="submit" value="Generate Stats"/>
-                <input type="hidden" name="groupId" th:value="${groupId}"/>
             </div>
             <div class="tournaments-wrapper">
 
-            <table th:each="tournaments : ${tournamentsList}" class="tournaments">
-                <tr>
-                    <th></th>
-                    <th>Tournament</th>
-                    <th>Season</th>
-                </tr>
-                <tr th:each="tournament : ${tournaments}">
-                    <td><input type="checkbox" name="tournamentIds" th:value="${tournament.id}" th:id="${tournament.id}"/></td>
-                    <td th:text="${tournament.name}"></td>
-                    <td th:text="${tournament.season>0} ?  ${tournament.season} : '-'"></td>
-                </tr>
-            </table>
+                <table th:each="tournaments : ${tournamentsList}" class="tournaments">
+                    <tr>
+                        <th></th>
+                        <th>Tournament</th>
+                        <th>Season</th>
+                    </tr>
+                    <tr th:each="tournament,indexStat : ${tournaments}" th:class="${indexStat.even}? ('even bordered-row') : 'bordered-row'">
+                        <td><input type="checkbox" name="tournamentIds"
+                                   th:value="${tournament.groupId}+'_'+${tournament.id}"
+                                   th:id="${tournament.groupId}+'_'+${tournament.id}"/></td>
+                        <td>
+                            <div class="tournament-name" th:text="${tournament.name}"></div>
+                            <div class="group-name" th:text="'('+${tournament.groupName}+')'"></div>
+                        </td>
+                        <td th:text="${tournament.season>0} ?  ${tournament.season} : '-'"></td>
+                    </tr>
+                </table>
             </div>
         </form>
     </div>
@@ -43,6 +47,7 @@
     $('#all').on('click', function(){
         $('form input[type=checkbox]').prop('checked',  $('#all').prop('checked'))
     })
+
 </script>
 </body>
 </html>
