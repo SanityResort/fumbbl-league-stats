@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
@@ -52,16 +53,9 @@ public class Stats {
         return "index";
     }
 
-    @RequestMapping("/tournaments")
-    public String getTournaments(@RequestParam String groupIds, Model model) throws JAXBException {
-        List<Tournament> tournaments = new ArrayList<>();
-        for (String groupId: groupIds.split(",")) {
-            try {
-                tournaments.addAll(tournamentFetcher.getTournaments(Integer.valueOf(StringUtils.trimWhitespace(groupId))));
-            } catch (NumberFormatException ex) {
-                logger.error("Could not format groupId '{}'. Reason: {}", groupId, ex.getMessage());
-            }
-        }
+    @RequestMapping(value = "/tournaments")
+    public String postTournaments(@RequestParam String groupIds, Model model) throws JAXBException {
+        List<Tournament> tournaments = getTournaments(groupIds);
         Collections.sort(tournaments);
         List<List<Tournament>> tournamentsList = new ArrayList<>();
 
@@ -87,8 +81,33 @@ public class Stats {
         return "tournaments";
     }
 
-    @RequestMapping("/performances")
-    public String getPerformances(@RequestParam Set<String> tournamentIds, Model
+    @RequestMapping(value = "/tournamentPerformances")
+    public String getPerformances(@RequestParam String groupIds, Model model) throws JAXBException {
+        List<Tournament> tournaments = getTournaments(groupIds);
+        Set<String> combinedIds = tournaments.stream().map(new Function<Tournament, String>() {
+            @Override
+            public String apply(Tournament tournament) {
+                return tournament.getGroupId()+"_"+tournament.getId();
+            }
+        }).collect(Collectors.toSet());
+
+        return postPerformances(combinedIds, model);
+    }
+
+        private List<Tournament> getTournaments(@RequestParam String groupIds) throws JAXBException {
+        List<Tournament> tournaments = new ArrayList<>();
+        for (String groupId: groupIds.split(",")) {
+            try {
+                tournaments.addAll(tournamentFetcher.getTournaments(Integer.valueOf(StringUtils.trimWhitespace(groupId))));
+            } catch (NumberFormatException ex) {
+                logger.error("Could not format groupId '{}'. Reason: {}", groupId, ex.getMessage());
+            }
+        }
+        return tournaments;
+    }
+
+    @RequestMapping(value = "/performances")
+    public String postPerformances(@RequestParam Set<String> tournamentIds, Model
             model) {
 
         Set<Performance> performances = performanceMerger.merge(getPerformances(tournamentIds));
