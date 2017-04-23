@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<group id="10863">
+    <name>D-A-CH</name>
+    <members>
+        <team id="874289">
+            <name>[D-A-CH] Pest Beuler</name>
+            <race>Nurgle</race>
+            <rating>98</rating>
+            <teamValue>980000</teamValue>
+            <tournamentWeight>980000</tournamentWeight>
+            <strength>146</strength>
+            <win>0</win>
+            <tie>0</tie>
+            <lose>0</lose>
+            <treasury>20000</treasury>
+            <coach id="130502">Eisenherz</coach>
+        </team>
+        <team id="874359">
+            <name>[D-A-CH]Black Forest Crushers</name>
+            <race>Human</race>
+            <rating>100</rating>
+            <teamValue>1000000</teamValue>
+            <tournamentWeight>1000000</tournamentWeight>
+            <strength>110</strength>
+            <win>0</win>
+            <tie>0</tie>
+            <lose>0</lose>
+            <treasury>0</treasury>
+            <coach id="241894">fuzzel1985</coach>
+        </team>
+        <team id="874376">
+            <name>[D-A-CH]s-Unternehmen</name>
+            <race>Chaos Dwarf</race>
+            <rating>100</rating>
+            <teamValue>1000000</teamValue>
+            <tournamentWeight>1000000</tournamentWeight>
+            <strength>106</strength>
+            <win>0</win>
+            <tie>0</tie>
+            <lose>0</lose>
+            <treasury>0</treasury>
+            <coach id="2319">Hollaender</coach>
+        </team>
+    </members>
+</group>

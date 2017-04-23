@@ -7,16 +7,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -48,57 +49,104 @@ public class Stats {
     @Resource
     private BBCodeBuilder bbCodeBuilder;
 
+    @Resource
+    private TeamFetcher teamFetcher;
+
+    @Resource
+    private MatchPerformanceFetcher matchPerformanceFetcher;
+
     @RequestMapping("/")
-    public String index(){
+    public String index() {
         return "index";
     }
 
-    @RequestMapping(value = "/tournaments")
-    public String postTournaments(@RequestParam String groupIds, Model model) throws JAXBException {
+    @RequestMapping(value = "/selection")
+    public String selection(@RequestParam String groupIds, @RequestParam String selection, Model model) throws
+            JAXBException {
+        if ("Load Tournaments".equals(selection)) {
+            return tournaments(groupIds, model);
+        } else if ("Load Teams".equals(selection)) {
+            return teams(groupIds, model);
+        }
+
+        throw new IllegalArgumentException("Illegal selection " + selection);
+    }
+
+    private String tournaments(String groupIds, Model model) throws JAXBException {
         List<Tournament> tournaments = getTournaments(groupIds);
         Collections.sort(tournaments);
-        List<List<Tournament>> tournamentsList = new ArrayList<>();
+        List<List<Tournament>> tournamentsList = splitList(tournaments);
 
-        List<Tournament> first = new ArrayList<>();
-        List<Tournament> second = new ArrayList<>();
-        List<Tournament> third = new ArrayList<>();
+        model.addAttribute("tournamentsList", tournamentsList);
+        return "tournaments";
+    }
 
-        for (int i = 0; i<tournaments.size(); i++) {
-            if (i%3 == 0) {
-                first.add(tournaments.get(i));
-            } else if (i%3 == 1){
-                second.add(tournaments.get(i));
-            }else {
-                third.add(tournaments.get(i));
+    private String teams(String groupIds, Model model) throws JAXBException {
+        LinkedHashSet<Team> teams = getTeams(groupIds);
+        List<List<Team>> teamsList = splitList(teams);
+
+        model.addAttribute("teamsList", teamsList);
+        return "teams";
+    }
+
+    private <T> List<List<T>> splitList(Collection<T> elements) {
+        List<List<T>> tournamentsList = new ArrayList<>();
+
+        List<T> first = new ArrayList<>();
+        List<T> second = new ArrayList<>();
+        List<T> third = new ArrayList<>();
+
+        Iterator<T> iterator = elements.iterator();
+
+        for (int i = 0; i < elements.size(); i++) {
+            if (i % 3 == 0) {
+                first.add(iterator.next());
+            } else if (i % 3 == 1) {
+                second.add(iterator.next());
+            } else {
+                third.add(iterator.next());
             }
         }
 
         tournamentsList.add(first);
         tournamentsList.add(second);
         tournamentsList.add(third);
-
-        model.addAttribute("tournamentsList", tournamentsList);
-        return "tournaments";
+        return tournamentsList;
     }
 
     @RequestMapping(value = "/tournamentPerformances")
-    public String getPerformances(@RequestParam String groupIds, Model model) throws JAXBException {
+    public String getTournamentPerformances(@RequestParam String groupIds, Model model) throws JAXBException {
         List<Tournament> tournaments = getTournaments(groupIds);
         Set<String> combinedIds = tournaments.stream().map(new Function<Tournament, String>() {
             @Override
             public String apply(Tournament tournament) {
-                return tournament.getGroupId()+"_"+tournament.getId();
+                return tournament.getGroupId() + "_" + tournament.getId();
             }
         }).collect(Collectors.toSet());
 
         return postPerformances(combinedIds, model);
     }
 
-        private List<Tournament> getTournaments(@RequestParam String groupIds) throws JAXBException {
+    @RequestMapping(value = "/teamPerformances")
+    public String getTeamPerformances(@RequestParam String groupIds, Model model) throws JAXBException {
+        LinkedHashSet<Team> teams = getTeams(groupIds);
+        Set<String> teamIds = teams.stream().map(new Function<Team, String>() {
+            @Override
+            public String apply(Team team) {
+                return String.valueOf(team.getId());
+            }
+        }).collect(Collectors.toSet());
+
+        return postPerformancesForTeams(teamIds, model);
+    }
+
+
+    private List<Tournament> getTournaments(@RequestParam String groupIds) throws JAXBException {
         List<Tournament> tournaments = new ArrayList<>();
-        for (String groupId: groupIds.split(",")) {
+        for (String groupId : groupIds.split(",")) {
             try {
-                tournaments.addAll(tournamentFetcher.getTournaments(Integer.valueOf(StringUtils.trimWhitespace(groupId))));
+                tournaments.addAll(tournamentFetcher.getTournaments(Integer.valueOf(StringUtils.trimWhitespace
+                        (groupId))));
             } catch (NumberFormatException ex) {
                 logger.error("Could not format groupId '{}'. Reason: {}", groupId, ex.getMessage());
             }
@@ -106,11 +154,30 @@ public class Stats {
         return tournaments;
     }
 
-    @RequestMapping(value = "/performances")
-    public String postPerformances(@RequestParam Set<String> tournamentIds, Model
-            model) {
+    private LinkedHashSet<Team> getTeams(@RequestParam String groupIds) throws JAXBException {
+        LinkedHashSet<Team> teams = new LinkedHashSet<>();
+        for (String groupId : groupIds.split(",")) {
+            try {
+                teams.addAll(teamFetcher.getTeams(Integer.valueOf(StringUtils.trimWhitespace(groupId))));
+            } catch (NumberFormatException ex) {
+                logger.error("Could not format groupId '{}'. Reason: {}", groupId, ex.getMessage());
+            }
+        }
+        return teams;
+    }
 
-        Set<Performance> performances = performanceMerger.merge(getPerformances(tournamentIds));
+    @RequestMapping(value = "/performances")
+    public String postPerformances(@RequestParam Set<String> tournamentIds, Model model) {
+        return processPerformances(getPerformances(tournamentIds), model);
+    }
+
+    @RequestMapping(value = "/performancesForTeams")
+    public String postPerformancesForTeams(@RequestParam Set<String> teamIds, Model model) {
+        return processPerformances(getPerformancesForTeams(teamIds), model);
+    }
+
+    private String processPerformances(List<Performance> performanceList, Model model) {
+        Set<Performance> performances = performanceMerger.merge(performanceList);
 
         List<PerformancesWrapper> wrappers = new ArrayList<>();
         Set<PerformanceValue> selectedPerformances = new HashSet<>();
@@ -120,8 +187,7 @@ public class Stats {
 
             selectedPerformances.addAll(sortedPerformances);
 
-            wrappers.add(new PerformancesWrapper(sortedPerformances, aspect
-                    .getTitle(), aspect.getTieBreakerTitle()));
+            wrappers.add(new PerformancesWrapper(sortedPerformances, aspect.getTitle(), aspect.getTieBreakerTitle()));
         }
 
         selectedPerformances.parallelStream().forEach(new Consumer<PerformanceValue>() {
@@ -149,9 +215,23 @@ public class Stats {
             public Stream<Performance> apply(String combinedId) {
                 String[] splitIds = combinedId.split("_");
                 try {
-                    return performanceFetcher.getPerformances(Integer.valueOf(splitIds[0]), Integer.valueOf(splitIds[1])).stream();
+                    return performanceFetcher.getPerformances(Integer.valueOf(splitIds[0]), Integer.valueOf
+                            (splitIds[1])).stream();
                 } catch (JAXBException e) {
                     throw new IllegalStateException("Could not load performance data for tournament: " + splitIds[1]);
+                }
+            }
+        }).collect(Collectors.toList());
+    }
+
+    private List<Performance> getPerformancesForTeams(Set<String> teamIds) {
+        return teamIds.parallelStream().flatMap(new Function<String, Stream<Performance>>() {
+            @Override
+            public Stream<Performance> apply(String teamId) {
+                try {
+                    return matchPerformanceFetcher.getPerformances(Integer.valueOf(teamId)).stream();
+                } catch (JAXBException e) {
+                    throw new IllegalStateException("Could not load performance data for team: " + teamId);
                 }
             }
         }).collect(Collectors.toList());

@@ -17,7 +17,7 @@ public class Config {
 
     @Bean
     public JAXBContext jaxbContext() throws JAXBException {
-        return JAXBContext.newInstance(Performance.class, Tournament.class);
+        return JAXBContext.newInstance(Performance.class, Tournament.class, Team.class);
     }
 
     @Bean
@@ -48,4 +48,9 @@ public class Config {
     public BBCodeBuilder bbCodeBuilder(){
         return new BBCodeBuilder();
     }
+
+    @Bean
+    public TeamFetcher teamFetcher() {return new TeamFetcher();}
+
+    @Bean MatchPerformanceFetcher matchPerformanceFetcher() {return new MatchPerformanceFetcher();}
 }

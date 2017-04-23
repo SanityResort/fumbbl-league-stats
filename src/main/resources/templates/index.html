@@ -10,10 +10,11 @@
 <div class="content">
     <h1>FUMBBL League Stats Generator <strong class="author">(by Candlejack)</strong></h1>
 
-    <form action="#" th:action="@{/tournaments}" method="POST">
+    <form action="#" th:action="@{/selection}" method="POST">
         <label th:for="groupIds">GroupIds:</label>
         <input type="text" name="groupIds" id="groupIds"/>
-        <input type="submit" value="Load Tournaments"/>
+        <input type="submit" value="Load Tournaments" name="selection"/>
+        <input type="submit" value="Load Teams" name="selection"/>
     </form>
 
     <div class="description left">
@@ -34,12 +35,16 @@
             out.</p>
 
         <h2>How it works</h2>
-        <p>To generate stats for a FUMBBL league, first enter the ids of the corresponding groups in the form
-            above. The ids must be separated by commas.</p>
+        <p>To generate stats for tournaments in a FUMBBL league, first enter the ids of the corresponding groups in the
+            form above and then click "Load Tournaments". To generate stats for all matches of teams in a FUMBBL league,
+            first enter the ids of the corresponding groups in the form
+            above and then click "Load Teams". The ids must be separated by commas.</p>
 
-        <p>On the next screen select all tournaments to be included in the stats calculation. This allows to create
-            overall
-            stats for several division in a single league.</p>
+        <p>On the next screen select all tournaments/teams to be included in the stats calculation. This allows to
+            create
+            overall stats for several division in a single league. Or for certain teams in a league. Note that if you
+            select teams, all matches of those teams will be considered, even those played outside of the group (there
+            is no way to filter for those).</p>
 
         <p>On the final screen several tables are displayed, one for each of the available stats (see below). When
             hovering over a table you get a button to copy the table as bbcode to your clipboard. You can paste this
@@ -59,10 +64,15 @@
 
         <h2>API Calls</h2>
 
-        <p>So far there is one API call supported:</p>
+        <p>So far there are two API calls supported:</p>
         <dl>
             <dt>tournamentPerformances</dt>
             <dd>Generates stats for all tournaments in the groups defined in the groupIds parameter. Http method is GET.
+                Takes one parameter "groupIds" containing a comma separated list of groupIds.
+            </dd>
+            <dt>teamPerformances</dt>
+            <dd>Generates stats for all games of all teams in the groups defined in the groupIds parameter. Http method
+                is GET.
                 Takes one parameter "groupIds" containing a comma separated list of groupIds.
             </dd>
         </dl>

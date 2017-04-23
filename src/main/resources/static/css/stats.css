@@ -148,26 +148,26 @@ dt {
     color: white;
 }
 
-.tournament-name {
+.team-name, .tournament-name {
     display: block;
 }
 
-.tournaments {
+.teams, .tournaments {
     border-spacing: 0px;
     flex: none;
     margin: auto;
     padding-top: 10px;
 }
 
-.tournaments-button {
+.teams-button, .tournaments-button {
     margin: auto;
 }
 
-.tournaments .even {
+.teams .even, .tournaments .even {
     background: #e6ddc7;
 }
 
-.tournaments-wrapper {
+.teams-wrapper, .tournaments-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;

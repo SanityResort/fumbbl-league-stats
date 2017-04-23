@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<matches>
+    <match id="3687892">
+        <date>2015-05-27 22:31:09</date>
+        <gate>39000</gate>
+        <division>5</division>
+        <home id="1">
+            <coach id="33740"/>
+            <name>Barbeque Filosofene</name>
+            <rating>174</rating>
+            <teamValue>1740000</teamValue>
+            <tournamentWeight>1880000</tournamentWeight>
+            <strength>173</strength>
+            <touchdowns>2</touchdowns>
+            <casualties total="3">
+                <bh>3</bh>
+                <si>0</si>
+                <kill>0</kill>
+            </casualties>
+            <fanfactor>1</fanfactor>
+            <winnings>60000</winnings>
+            <performances>
+                <performance player="10" completions="1" touchdowns="1" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="0" blocks="8" fouls="0" turns="16"/>
+                <performance player="11" completions="0" touchdowns="0" interceptions="0" casualties="1" mvps="1"
+                             passing="0" rushing="0" blocks="6" fouls="0" turns="16"/>
+
+            </performances>
+        </home>
+        <away id="2">
+            <coach id="8701"/>
+            <name>TunFaire Amazons</name>
+            <rating>211</rating>
+            <teamValue>2110000</teamValue>
+            <tournamentWeight>2100000</tournamentWeight>
+            <strength>214</strength>
+            <touchdowns>1</touchdowns>
+            <casualties total="5">
+                <bh>4</bh>
+                <si>1</si>
+                <kill>0</kill>
+            </casualties>
+            <fanfactor>-1</fanfactor>
+            <winnings>70000</winnings>
+            <performances>
+                <performance player="7396252" completions="0" touchdowns="0" interceptions="0" casualties="1" mvps="0"
+                             passing="0" rushing="0" blocks="11" fouls="0" turns="16"/>
+                <performance player="6862500" completions="0" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="0" blocks="2" fouls="0" turns="11"/>
+                <performance player="7247581" completions="0" touchdowns="0" interceptions="0" casualties="1" mvps="0"
+                             passing="0" rushing="7" blocks="4" fouls="0" turns="16"/>
+                <performance player="6710216" completions="0" touchdowns="0" interceptions="0" casualties="1" mvps="0"
+                             passing="-1" rushing="0" blocks="3" fouls="0" turns="13"/>
+                <performance player="7100936" completions="0" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="1" rushing="6" blocks="1" fouls="0" turns="10"/>
+                <performance player="6738317" completions="1" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="1" rushing="0" blocks="0" fouls="0" turns="5"/>
+                <performance player="6665903" completions="0" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="0" blocks="1" fouls="1" turns="9"/>
+                <performance player="7243752" completions="0" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="1" rushing="2" blocks="5" fouls="0" turns="14"/>
+                <performance player="6643092" completions="0" touchdowns="0" interceptions="0" casualties="1" mvps="1"
+                             passing="0" rushing="0" blocks="6" fouls="0" turns="6"/>
+                <performance player="7039735" completions="0" touchdowns="1" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="10" blocks="1" fouls="0" turns="9"/>
+                <performance player="7107639" completions="0" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="0" blocks="2" fouls="0" turns="11"/>
+                <performance player="7481411" completions="0" touchdowns="0" interceptions="0" casualties="1" mvps="0"
+                             passing="0" rushing="0" blocks="1" fouls="0" turns="15"/>
+            </performances>
+        </away>
+    </match>
+    <match id="3047646">
+        <date>2010-08-02 23:13:13</date>
+        <gate>108000</gate>
+        <division>5</division>
+        <home id="2">
+            <coach id="78628"/>
+            <name>SK Brenn!!</name>
+            <rating>255</rating>
+            <teamValue>2550000</teamValue>
+            <tournamentWeight>1710000</tournamentWeight>
+            <strength>193</strength>
+            <touchdowns>2</touchdowns>
+            <casualties total="7">
+                <bh>5</bh>
+                <si>2</si>
+                <kill>0</kill>
+            </casualties>
+            <fanfactor>1</fanfactor>
+            <winnings>60000</winnings>
+            <performances>
+                <performance player="5977706" completions="0" touchdowns="0" interceptions="0" casualties="1" mvps="0"
+                             passing="0" rushing="0" blocks="4" fouls="0" turns=""/>
+                <performance player="7177601" completions="0" touchdowns="1" interceptions="0" casualties="1" mvps="0"
+                             passing="0" rushing="2" blocks="8" fouls="0" turns=""/>
+                <performance player="5977813" completions="0" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="0" blocks="6" fouls="0" turns=""/>
+                <performance player="6452388" completions="0" touchdowns="0" interceptions="0" casualties="2" mvps="0"
+                             passing="0" rushing="0" blocks="9" fouls="0" turns=""/>
+                <performance player="7383553" completions="0" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="0" blocks="6" fouls="0" turns=""/>
+                <performance player="5977815" completions="0" touchdowns="1" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="14" blocks="11" fouls="0" turns=""/>
+                <performance player="6922676" completions="0" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="0" blocks="7" fouls="0" turns=""/>
+                <performance player="7196790" completions="2" touchdowns="0" interceptions="0" casualties="0" mvps="1"
+                             passing="4" rushing="31" blocks="1" fouls="0" turns=""/>
+                <performance player="7248708" completions="0" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="0" blocks="2" fouls="0" turns=""/>
+                <performance player="7248704" completions="0" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="0" blocks="2" fouls="0" turns=""/>
+                <performance player="7051349" completions="0" touchdowns="0" interceptions="0" casualties="1" mvps="0"
+                             passing="0" rushing="1" blocks="4" fouls="3" turns=""/>
+            </performances>
+        </home>
+        <away id="1">
+            <coach id="8701"/>
+            <name>TunFaire Amazons</name>
+            <rating>241</rating>
+            <teamValue>2410000</teamValue>
+            <tournamentWeight>2100000</tournamentWeight>
+            <strength>213</strength>
+            <touchdowns>1</touchdowns>
+            <casualties total="4">
+                <bh>0</bh>
+                <si>3</si>
+                <kill>1</kill>
+            </casualties>
+            <fanfactor>0</fanfactor>
+            <winnings>50000</winnings>
+            <performances>
+                <performance player="11" completions="0" touchdowns="0" interceptions="0" casualties="2" mvps="0"
+                             passing="0" rushing="0" blocks="9" fouls="0" turns=""/>
+                <performance player="12" completions="0" touchdowns="0" interceptions="0" casualties="0" mvps="0"
+                             passing="0" rushing="0" blocks="6" fouls="0" turns=""/>
+
+            </performances>
+        </away>
+    </match>
+</matches>

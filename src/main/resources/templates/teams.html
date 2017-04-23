@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Fumbbl League Stats - Team Listing</title>
+    <link rel="stylesheet" th:href="@{/css/stats.css}" type="text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Economica:400,700' rel='stylesheet' type='text/css'/>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="content">
+    <h2>Team selection</h2>
+    <div class="description center">
+        <p class="selection-description">Select all teams to include in the stats calculation.</p>
+        <div class="label-wrapper"><label> Select all <input type="checkbox" id="all"/></label></div>
+        <form action="#" th:action="@{/performancesForTeams}" method="POST">
+            <div class="teams-button">
+                <input type="submit" value="Generate Stats"/>
+            </div>
+            <div class="teams-wrapper">
+
+                <table th:each="teams : ${teamsList}" class="teams">
+                    <tr>
+                        <th></th>
+                        <th>Team</th>
+                        <th>Coach</th>
+                    </tr>
+                    <tr th:each="team,indexStat : ${teams}" th:class="${indexStat.even}? ('even bordered-row') : 'bordered-row'">
+                        <td><input type="checkbox" name="teamIds"
+                                   th:value="${team.id}"
+                                   th:id="${team.id}"/></td>
+                        <td>
+                            <div class="team-name" th:text="${team.name}"></div>
+                            <div class="group-name" th:text="'('+${team.groupName}+')'"></div>
+                        </td>
+                        <td th:text="${team.coachName}"></td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('#all').on('click', function(){
+        $('form input[type=checkbox]').prop('checked',  $('#all').prop('checked'))
+    })
+
+</script>
+</body>
+</html>

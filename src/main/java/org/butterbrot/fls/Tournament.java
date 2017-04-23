@@ -95,7 +95,7 @@ public class Tournament implements Comparable {
     }
 
     public void setGroupName(String groupName) {
-        this.groupName = groupName;
+        this.groupName =  StringUtils.trimWhitespace(groupName);
     }
 
     public int getGroupId() {
