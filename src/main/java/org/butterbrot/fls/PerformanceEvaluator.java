@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class PerformanceEvaluator {
 
     public List<PerformanceValue> evaluate(Set<Performance> performances, PerformanceAspect aspect, int limit) {
-        List<PerformanceValue> sortedPerformances = performances.stream().map(new Function<Performance,
+        List<PerformanceValue> sortedPerformances = performances.parallelStream().map(new Function<Performance,
                 PerformanceValue>() {
             @Override
             public PerformanceValue apply(Performance performance) {

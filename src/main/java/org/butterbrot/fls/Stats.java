@@ -117,7 +117,7 @@ public class Stats {
     @RequestMapping(value = "/tournamentPerformances")
     public String getTournamentPerformances(@RequestParam String groupIds, Model model) throws JAXBException {
         List<Tournament> tournaments = getTournaments(groupIds);
-        Set<String> combinedIds = tournaments.stream().map(new Function<Tournament, String>() {
+        Set<String> combinedIds = tournaments.parallelStream().map(new Function<Tournament, String>() {
             @Override
             public String apply(Tournament tournament) {
                 return tournament.getGroupId() + "_" + tournament.getId();
@@ -130,7 +130,7 @@ public class Stats {
     @RequestMapping(value = "/teamPerformances")
     public String getTeamPerformances(@RequestParam String groupIds, Model model) throws JAXBException {
         LinkedHashSet<Team> teams = getTeams(groupIds);
-        Set<String> teamIds = teams.stream().map(new Function<Team, String>() {
+        Set<String> teamIds = teams.parallelStream().map(new Function<Team, String>() {
             @Override
             public String apply(Team team) {
                 return String.valueOf(team.getId());
@@ -216,7 +216,7 @@ public class Stats {
                 String[] splitIds = combinedId.split("_");
                 try {
                     return performanceFetcher.getPerformances(Integer.valueOf(splitIds[0]), Integer.valueOf
-                            (splitIds[1])).stream();
+                            (splitIds[1])).parallelStream();
                 } catch (JAXBException e) {
                     throw new IllegalStateException("Could not load performance data for tournament: " + splitIds[1]);
                 }

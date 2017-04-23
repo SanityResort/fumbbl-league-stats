@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.session-timeout=60 -Dserver.port=$PORT -jar target/*.jar
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.jar
