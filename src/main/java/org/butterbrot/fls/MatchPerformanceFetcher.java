@@ -14,8 +14,11 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MatchPerformanceFetcher {
 
@@ -43,20 +46,28 @@ public class MatchPerformanceFetcher {
     private List<Element> loadPerformanceData(Integer teamId) {
         int pagingId = 1;
         List<Element> performanceElements = new ArrayList<>();
+        Set<String> matchIds = new HashSet<>();
         int lastMatchCount = 0;
         do {
-            ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(
-                    UriComponentsBuilder.fromHttpUrl(MATCHES_URL).buildAndExpand(teamId, pagingId++).toUri(), String.class);
+            URI uri = UriComponentsBuilder.fromHttpUrl(MATCHES_URL).buildAndExpand(teamId, pagingId++).toUri();
+            ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(uri, String.class);
 
             String response = responseEntity.getBody();
             if (StringUtils.hasText(response)) {
 
                 Document doc = Jsoup.parse(response);
-                Elements perfElements = doc.select("home[id="+teamId+"] performance, away[id="+teamId+"] performance");
-                lastMatchCount = perfElements.size();
-                performanceElements.addAll(perfElements);
+                Elements matches = doc.select("match");
+                for (Element match : matches) {
+                    if (!matchIds.contains(match.id())) {
+                        matchIds.add(match.id());
+                        Elements perfElements = match.select("home[id=" + teamId + "] performance, away[id=" + teamId
+                                + "] performance");
+                        performanceElements.addAll(perfElements);
+                    }
+                }
+                lastMatchCount = matches.size();
             }
-        } while(lastMatchCount > 0);
+        } while (lastMatchCount > 0);
         return performanceElements;
     }
 }
