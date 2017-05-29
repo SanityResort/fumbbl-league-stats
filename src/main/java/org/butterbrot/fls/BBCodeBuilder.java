@@ -90,7 +90,7 @@ public class BBCodeBuilder {
         StringBuilder builder = new StringBuilder();
         builder.append(cell(TAG_TD, String.valueOf(performanceValue.getPlace())));
         builder.append(cell(TAG_TD, playerUrl(performanceValue.getPlayerName(), performanceValue.getPlayerId())));
-        builder.append(cell(TAG_TD, teamUrl(performanceValue.getTeamName(), performanceValue.getTeamName())));
+        builder.append(cell(TAG_TD, teamUrl(performanceValue.getTeamName(), performanceValue.getTeamUrlPath())));
         builder.append(cell(TAG_TD, String.valueOf(performanceValue.getValue())));
         if (hasTiebreaker) {
             builder.append(cell(TAG_TD, String.valueOf(performanceValue.getTiebreaker())));

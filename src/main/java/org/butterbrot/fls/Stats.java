@@ -1,5 +1,10 @@
 package org.butterbrot.fls;
 
+import com.google.common.base.Joiner;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.FluentIterable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +25,8 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -54,6 +61,12 @@ public class Stats {
 
     @Resource
     private MatchPerformanceFetcher matchPerformanceFetcher;
+
+    private LoadingCache<Key,  List<PerformancesWrapper>> tournamentCache = CacheBuilder.newBuilder()
+            .expireAfterWrite(30, TimeUnit.MINUTES).build(new TournamentLoader());
+
+    private LoadingCache<Key,  List<PerformancesWrapper>> teamCache = CacheBuilder.newBuilder()
+            .expireAfterWrite(30, TimeUnit.MINUTES).build(new TeamLoader());
 
     @RequestMapping("/")
     public String index() {
@@ -115,7 +128,8 @@ public class Stats {
     }
 
     @RequestMapping(value = "/tournamentPerformances")
-    public String getTournamentPerformances(@RequestParam String groupIds, Model model) throws JAXBException {
+    public String getTournamentPerformances(@RequestParam String groupIds, Model model) throws JAXBException,
+            ExecutionException {
         List<Tournament> tournaments = getTournaments(groupIds);
         Set<String> combinedIds = tournaments.parallelStream().map(new Function<Tournament, String>() {
             @Override
@@ -128,7 +142,8 @@ public class Stats {
     }
 
     @RequestMapping(value = "/teamPerformances")
-    public String getTeamPerformances(@RequestParam String groupIds, Model model) throws JAXBException {
+    public String getTeamPerformances(@RequestParam String groupIds, Model model) throws JAXBException,
+            ExecutionException {
         LinkedHashSet<Team> teams = getTeams(groupIds);
         Set<String> teamIds = teams.parallelStream().map(new Function<Team, String>() {
             @Override
@@ -167,16 +182,66 @@ public class Stats {
     }
 
     @RequestMapping(value = "/performances")
-    public String postPerformances(@RequestParam Set<String> tournamentIds, Model model) {
-        return processPerformances(getPerformances(tournamentIds), model);
+    public String postPerformances(@RequestParam Set<String> tournamentIds, Model model) throws ExecutionException {
+        List<PerformancesWrapper> wrappers = tournamentCache.get(new Key(tournamentIds));
+        model.addAttribute("wrappers", wrappers);
+        return "performances";
     }
 
     @RequestMapping(value = "/performancesForTeams")
-    public String postPerformancesForTeams(@RequestParam Set<String> teamIds, Model model) {
-        return processPerformances(getPerformancesForTeams(teamIds), model);
+    public String postPerformancesForTeams(@RequestParam Set<String> teamIds, Model model) throws ExecutionException {
+        List<PerformancesWrapper> wrappers = teamCache.get(new Key(teamIds));
+        model.addAttribute("wrappers", wrappers);
+        return "performances";
     }
 
-    private String processPerformances(List<Performance> performanceList, Model model) {
+    private static class Key {
+        private String checksum;
+        private Set<String> ids;
+
+        public Key(Set<String> ids) {
+            this.ids = ids;
+            List<String> idsList = new ArrayList<>();
+            idsList.addAll(ids);
+            Collections.sort(idsList);
+            checksum = FluentIterable.from(idsList).join(Joiner.on(','));
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Key key = (Key) o;
+
+            return checksum.equals(key.checksum);
+        }
+
+        @Override
+        public int hashCode() {
+            return checksum.hashCode();
+        }
+    }
+
+    private class TournamentLoader extends CacheLoader<Key,  List<PerformancesWrapper>> {
+
+        @Override
+        public List<PerformancesWrapper> load(Key key) throws Exception {
+            return processPerformances(getPerformances(key.ids));
+        }
+    }
+
+
+    private class TeamLoader extends CacheLoader<Key,  List<PerformancesWrapper>> {
+
+        @Override
+        public List<PerformancesWrapper> load(Key key) throws Exception {
+            return processPerformances(getPerformancesForTeams(key.ids));
+        }
+    }
+
+
+    private List<PerformancesWrapper> processPerformances(List<Performance> performanceList) {
         Set<Performance> performances = performanceMerger.merge(performanceList);
 
         List<PerformancesWrapper> wrappers = new ArrayList<>();
@@ -204,9 +269,7 @@ public class Stats {
             }
         });
 
-        model.addAttribute("wrappers", wrappers);
-
-        return "performances";
+        return wrappers;
     }
 
     private List<Performance> getPerformances(Set<String> combinedIds) {
