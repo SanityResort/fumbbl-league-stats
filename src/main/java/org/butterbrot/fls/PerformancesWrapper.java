@@ -3,9 +3,9 @@ package org.butterbrot.fls;
 import java.util.List;
 
 public class PerformancesWrapper {
-    private List<PerformanceValue> performances;
-    private String title;
-    private String tiebreakerTitle;
+    private final List<PerformanceValue> performances;
+    private final String title;
+    private final String tiebreakerTitle;
     private String bbCode;
 
     public PerformancesWrapper(List<PerformanceValue> performances, String title, String tiebreakerTitle) {

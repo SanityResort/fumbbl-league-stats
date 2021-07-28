@@ -11,7 +11,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.util.Set;
 
 import static org.butterbrot.fls.TestFileHelper.loadFile;
 import static org.junit.Assert.*;
@@ -22,7 +21,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PlayerFetcherTest {
 
-    private static final String FILE_PLAYER = "/player.html";
+    private static final String FILE_PLAYER = "/player.json";
 
     @InjectMocks
     private PlayerFetcher playerFetcher;
@@ -30,9 +29,13 @@ public class PlayerFetcherTest {
     @Mock
     private RestTemplate fumbblTemplate;
 
+    @Mock
+    private TeamFetcher teamFetcher;
+
     @Test
     public void populate() throws Exception {
-        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>(loadFile(FILE_PLAYER), HttpStatus.OK));
+        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<>(loadFile(FILE_PLAYER), HttpStatus.OK));
+        when(teamFetcher.getTeam(874507)).thenReturn(new Team(874507, "[D-A-CH] Brüder des Donners", "", null));
         PerformanceValue performance = new PerformanceValue(0, 0, null, null);
         playerFetcher.populate(performance);
         assertEquals("Player name not set correctly", "Kletran Minotaurson", performance.getPlayerName());

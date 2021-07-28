@@ -1,40 +1,49 @@
 package org.butterbrot.fls;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.jayway.jsonpath.JsonPath;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.Resource;
+import java.util.concurrent.ExecutionException;
 
 public class PlayerFetcher {
 
-    private static final String PLAYER_URL = "https://fumbbl.com/p/player?player_id={playerId}";
+    private static final Logger logger = LoggerFactory.getLogger(PlayerFetcher.class);
+
+    private static final String PLAYER_URL = "https://fumbbl.com/api/player/get/{playerId}";
+    private static final String TEAM_URL_PATH = "/p/team?op=view&team_id=";
 
     @Resource
     private RestTemplate fumbblTemplate;
+
+    @Resource
+    private TeamFetcher teamFetcher;
 
     public void populate(PerformanceValue performance) {
         ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(
                 UriComponentsBuilder.fromHttpUrl(PLAYER_URL).buildAndExpand(performance.getPlayerId()).toUri(), String.class);
 
         String response = responseEntity.getBody();
-        if (StringUtils.hasText(response)){
-            Document doc = Jsoup.parse(response);
-            Elements nammElements = doc.select("td[class=name]");
-            if (!nammElements.isEmpty()) {
-                performance.setPlayerName(nammElements.first().text());
-            }
-            Elements linkElements = doc.select("div[class=pagecontent] > div > div > a");
-            if (!linkElements.isEmpty()) {
-                Element linkElement = linkElements.first();
-                performance.setTeamUrlPath(linkElement.attr("href"));
-                performance.setTeamName(linkElement.text());
-            }
+
+        String name = JsonPath.read(response, "$.name");
+        int teamId = JsonPath.read(response, "$.teamId");
+
+        String teamName = null;
+
+        try {
+            Team team = teamFetcher.getTeam(teamId);
+            teamName = team.getName();
+        } catch (ExecutionException e) {
+            logger.error("Could not load team for id " + teamId + " while loading data for player with id " + performance.getPlayerId());
         }
+
+        performance.setPlayerName(name);
+        performance.setTeamName(teamName);
+        performance.setTeamUrlPath(TEAM_URL_PATH + teamId);
+
     }
 }

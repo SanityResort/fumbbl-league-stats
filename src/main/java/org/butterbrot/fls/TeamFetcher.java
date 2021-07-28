@@ -1,5 +1,9 @@
 package org.butterbrot.fls;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.jayway.jsonpath.JsonPath;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -9,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,10 +21,16 @@ import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class TeamFetcher {
 
     private static final String TEAMS_URL = "https://fumbbl.com/xml:group?id={groupId}&op=members";
+    private static final String TEAM_URL = "https://fumbbl.com/api/team/get/{teamId}";
+
+    private final LoadingCache<Integer, Team> teamCache = CacheBuilder.newBuilder()
+            .expireAfterAccess(30, TimeUnit.MINUTES).build(new TeamLoader());
 
     @Resource
     private RestTemplate fumbblTemplate;
@@ -36,11 +47,15 @@ public class TeamFetcher {
                 Team team = (Team) unmarshaller.unmarshal(reader);
                 team.setGroupName(container.name);
                 teams.add(team);
+                teamCache.put(team.getId(), team);
             }
         }
         return teams;
     }
 
+    public Team getTeam(int teamId) throws ExecutionException {
+        return teamCache.get(teamId);
+    }
 
     private Container loadPerformanceData(Integer groupId) {
         List<Element> teamElements = new ArrayList<>();
@@ -68,6 +83,19 @@ public class TeamFetcher {
         public Container(List<Element> teams, String name) {
             this.teams = teams;
             this.name = name;
+        }
+    }
+
+    private class TeamLoader extends CacheLoader<Integer, Team> {
+        @Override
+        public Team load(@ParametersAreNonnullByDefault Integer teamId) {
+            ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(UriComponentsBuilder.fromHttpUrl
+                    (TEAM_URL).buildAndExpand(teamId).toUri(), String.class);
+            String response = responseEntity.getBody();
+            String coachName = JsonPath.read(response, "$.coach.name");
+            String teamName = JsonPath.read(response, "$.name");
+
+            return new Team(teamId, teamName, coachName, null);
         }
     }
 }

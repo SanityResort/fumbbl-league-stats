@@ -1,10 +1,8 @@
 package org.butterbrot.fls;
 
-import com.google.common.base.Joiner;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.FluentIterable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -27,7 +25,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -62,11 +59,11 @@ public class Stats {
     @Resource
     private MatchPerformanceFetcher matchPerformanceFetcher;
 
-    private LoadingCache<Key,  List<PerformancesWrapper>> tournamentCache = CacheBuilder.newBuilder()
+    private final LoadingCache<Key,  List<PerformancesWrapper>> tournamentCache = CacheBuilder.newBuilder()
             .expireAfterWrite(30, TimeUnit.MINUTES).build(new TournamentLoader());
 
-    private LoadingCache<Key,  List<PerformancesWrapper>> teamCache = CacheBuilder.newBuilder()
-            .expireAfterWrite(30, TimeUnit.MINUTES).build(new TeamLoader());
+    private final LoadingCache<Key,  List<PerformancesWrapper>> teamCache = CacheBuilder.newBuilder()
+            .expireAfterWrite(30, TimeUnit.MINUTES).build(new TeamsLoader());
 
     @RequestMapping("/")
     public String index() {
@@ -131,12 +128,7 @@ public class Stats {
     public String getTournamentPerformances(@RequestParam String groupIds, Model model) throws JAXBException,
             ExecutionException {
         List<Tournament> tournaments = getTournaments(groupIds);
-        Set<String> combinedIds = tournaments.parallelStream().map(new Function<Tournament, String>() {
-            @Override
-            public String apply(Tournament tournament) {
-                return tournament.getGroupId() + "_" + tournament.getId();
-            }
-        }).collect(Collectors.toSet());
+        Set<String> combinedIds = tournaments.parallelStream().map(tournament -> tournament.getGroupId() + "_" + tournament.getId()).collect(Collectors.toSet());
 
         return postPerformances(combinedIds, model);
     }
@@ -145,12 +137,7 @@ public class Stats {
     public String getTeamPerformances(@RequestParam String groupIds, Model model) throws JAXBException,
             ExecutionException {
         LinkedHashSet<Team> teams = getTeams(groupIds);
-        Set<String> teamIds = teams.parallelStream().map(new Function<Team, String>() {
-            @Override
-            public String apply(Team team) {
-                return String.valueOf(team.getId());
-            }
-        }).collect(Collectors.toSet());
+        Set<String> teamIds = teams.parallelStream().map(team -> String.valueOf(team.getId())).collect(Collectors.toSet());
 
         return postPerformancesForTeams(teamIds, model);
     }
@@ -160,7 +147,7 @@ public class Stats {
         List<Tournament> tournaments = new ArrayList<>();
         for (String groupId : groupIds.split(",")) {
             try {
-                tournaments.addAll(tournamentFetcher.getTournaments(Integer.valueOf(StringUtils.trimWhitespace
+                tournaments.addAll(tournamentFetcher.getTournaments(Integer.parseInt(StringUtils.trimWhitespace
                         (groupId))));
             } catch (NumberFormatException ex) {
                 logger.error("Could not format groupId '{}'. Reason: {}", groupId, ex.getMessage());
@@ -173,7 +160,7 @@ public class Stats {
         LinkedHashSet<Team> teams = new LinkedHashSet<>();
         for (String groupId : groupIds.split(",")) {
             try {
-                teams.addAll(teamFetcher.getTeams(Integer.valueOf(StringUtils.trimWhitespace(groupId))));
+                teams.addAll(teamFetcher.getTeams(Integer.parseInt(StringUtils.trimWhitespace(groupId))));
             } catch (NumberFormatException ex) {
                 logger.error("Could not format groupId '{}'. Reason: {}", groupId, ex.getMessage());
             }
@@ -196,15 +183,14 @@ public class Stats {
     }
 
     private static class Key {
-        private String checksum;
-        private Set<String> ids;
+        private final String checksum;
+        private final Set<String> ids;
 
         public Key(Set<String> ids) {
             this.ids = ids;
-            List<String> idsList = new ArrayList<>();
-            idsList.addAll(ids);
+            List<String> idsList = new ArrayList<>(ids);
             Collections.sort(idsList);
-            checksum = FluentIterable.from(idsList).join(Joiner.on(','));
+            checksum = String.join(",", idsList);
         }
 
         @Override
@@ -226,16 +212,16 @@ public class Stats {
     private class TournamentLoader extends CacheLoader<Key,  List<PerformancesWrapper>> {
 
         @Override
-        public List<PerformancesWrapper> load(Key key) throws Exception {
+        public List<PerformancesWrapper> load(Key key) {
             return processPerformances(getPerformances(key.ids));
         }
     }
 
 
-    private class TeamLoader extends CacheLoader<Key,  List<PerformancesWrapper>> {
+    private class TeamsLoader extends CacheLoader<Key,  List<PerformancesWrapper>> {
 
         @Override
-        public List<PerformancesWrapper> load(Key key) throws Exception {
+        public List<PerformancesWrapper> load(Key key) {
             return processPerformances(getPerformancesForTeams(key.ids));
         }
     }
@@ -255,52 +241,36 @@ public class Stats {
             wrappers.add(new PerformancesWrapper(sortedPerformances, aspect.getTitle(), aspect.getTieBreakerTitle()));
         }
 
-        selectedPerformances.parallelStream().forEach(new Consumer<PerformanceValue>() {
-            @Override
-            public void accept(PerformanceValue performance) {
-                playerFetcher.populate(performance);
-            }
-        });
+        selectedPerformances.parallelStream().forEach(performance -> playerFetcher.populate(performance));
 
-        wrappers.forEach(new Consumer<PerformancesWrapper>() {
-            @Override
-            public void accept(PerformancesWrapper performancesWrapper) {
-                bbCodeBuilder.populate(performancesWrapper);
-            }
-        });
+        wrappers.forEach(performancesWrapper -> bbCodeBuilder.populate(performancesWrapper));
 
         return wrappers;
     }
 
     private List<Performance> getPerformances(Set<String> combinedIds) {
-        return combinedIds.parallelStream().flatMap(new Function<String, Stream<Performance>>() {
-            @Override
-            public Stream<Performance> apply(String combinedId) {
-                String[] splitIds = combinedId.split("_");
-                try {
-                    return performanceFetcher.getPerformances(Integer.valueOf(splitIds[0]), Integer.valueOf
-                            (splitIds[1])).parallelStream();
-                } catch (JAXBException e) {
-                    throw new IllegalStateException("Could not load performance data for tournament: " + splitIds[1]);
-                }
+        return combinedIds.parallelStream().flatMap((Function<String, Stream<Performance>>) combinedId -> {
+            String[] splitIds = combinedId.split("_");
+            try {
+                return performanceFetcher.getPerformances(Integer.valueOf(splitIds[0]), Integer.valueOf
+                        (splitIds[1])).parallelStream();
+            } catch (JAXBException e) {
+                throw new IllegalStateException("Could not load performance data for tournament: " + splitIds[1]);
             }
         }).collect(Collectors.toList());
     }
 
     private List<Performance> getPerformancesForTeams(Set<String> teamIds) {
-        return teamIds.parallelStream().flatMap(new Function<String, Stream<Performance>>() {
-            @Override
-            public Stream<Performance> apply(String teamId) {
-                try {
-                    return matchPerformanceFetcher.getPerformances(Integer.valueOf(teamId)).stream();
-                } catch (JAXBException e) {
-                    throw new IllegalStateException("Could not load performance data for team: " + teamId);
-                }
+        return teamIds.parallelStream().flatMap((Function<String, Stream<Performance>>) teamId -> {
+            try {
+                return matchPerformanceFetcher.getPerformances(Integer.parseInt(teamId)).stream();
+            } catch (JAXBException e) {
+                throw new IllegalStateException("Could not load performance data for team: " + teamId);
             }
         }).collect(Collectors.toList());
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SpringApplication.run(Stats.class, args);
     }
 }
