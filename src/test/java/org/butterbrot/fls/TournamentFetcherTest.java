@@ -45,7 +45,7 @@ public class TournamentFetcherTest {
 
     @Test
     public void getTournaments() throws Exception{
-        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>(loadFile(FILE_TOURNAMENTS), HttpStatus.OK));
+        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<>(loadFile(FILE_TOURNAMENTS), HttpStatus.OK));
         List<Tournament> actualTournaments = tournamentFetcher.getTournaments(1234);
         assertEquals("Size of tournaments did not match", expectedTournaments.size(), actualTournaments.size());
         for (Tournament tournament: expectedTournaments) {

@@ -19,7 +19,8 @@ import java.util.List;
 
 public class PerformanceFetcher {
 
-    private static final String MATCHES_URL = "https://fumbbl.com/xml:group?id={groupId}&op=matches&t={tournamentid}&paging={pagingId}";
+    private static final String MATCHES_URL = "https://fumbbl.com/xml:group?id={groupId}&op=matches&t={tournamentid" +
+            "}&paging={pagingId}";
 
     @Resource
     private RestTemplate fumbblTemplate;
@@ -31,7 +32,7 @@ public class PerformanceFetcher {
         List<Performance> performances = new ArrayList<>();
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         for (Element element : loadPerformanceData(groupId, tournamentId)) {
-            try (StringReader reader = new StringReader(element.outerHtml().replace("&nbsp;", " "))){
+            try (StringReader reader = new StringReader(element.outerHtml().replace("&nbsp;", " "))) {
                 performances.add((Performance) unmarshaller.unmarshal(reader));
             }
         }
@@ -42,18 +43,20 @@ public class PerformanceFetcher {
         String pagingId = "0";
         List<Element> performanceElements = new ArrayList<>();
         while (pagingId != null) {
-            ResponseEntity<String> responseEntity = fumbblTemplate.getForEntity(
-                    UriComponentsBuilder.fromHttpUrl(MATCHES_URL).buildAndExpand(groupId, tournamentId, pagingId).toUri(), String.class);
+            ResponseEntity<String> responseEntity =
+                    fumbblTemplate.getForEntity(UriComponentsBuilder.fromHttpUrl(MATCHES_URL).buildAndExpand(groupId,
+                            tournamentId, pagingId).toUri(), String.class);
 
             String response = responseEntity.getBody();
             if (StringUtils.hasText(response)) {
 
                 Document doc = Jsoup.parse(response);
                 Elements nextPage = doc.getElementsByTag("nextPage");
-                if (nextPage.isEmpty()){
-                    pagingId = null;
+                Element first = nextPage.first();
+                if (first != null) {
+                    pagingId = first.text();
                 } else {
-                    pagingId = nextPage.first().text();
+                    pagingId = null;
                 }
                 performanceElements.addAll(doc.getElementsByTag("performance"));
             } else {

@@ -1,19 +1,19 @@
 package org.butterbrot.fls;
 
 public class BBCodeBuilder {
-    private static String COLOR_BRONZE = "#CD7F32";
-    private static String COLOR_SILVER = "silver";
-    private static String COLOR_GOLD = "gold";
-    private static String COLOR_EVEN = "#e6ddc7";
-    private static String COLOR_ODD = "#d6cdb7";
-    private static String TAG_TH = "th";
-    private static String TAG_TD = "td";
-    private static String TEMPLATE_CELL = "  [%s=blackborder align=center]%s[/%s]\\%n";
-    private static String TEMPLATE_PLAYER_URL = "[url=https://fumbbl.com/p/player?player_id=%d]%s[/url]";
-    private static String TEMPLATE_TEAM_URL = "[url=https://fumbbl.com%s]%s[/url]";
-    private static String TEMPLATE_HEADER = "[table blackborder border2 width=50%%][tr bg=#392]\\%n  [td blackborder "
+    private static final String COLOR_BRONZE = "#CD7F32";
+    private static final String COLOR_SILVER = "silver";
+    private static final String COLOR_GOLD = "gold";
+    private static final String COLOR_EVEN = "#e6ddc7";
+    private static final String COLOR_ODD = "#d6cdb7";
+    private static final String TAG_TH = "th";
+    private static final String TAG_TD = "td";
+    private static final String TEMPLATE_CELL = "  [%s=blackborder align=center]%s[/%s]\\%n";
+    private static final String TEMPLATE_PLAYER_URL = "[url=https://fumbbl.com/p/player?player_id=%d]%s[/url]";
+    private static final String TEMPLATE_TEAM_URL = "[url=https://fumbbl.com%s]%s[/url]";
+    private static final String TEMPLATE_HEADER = "[table blackborder border2 width=50%%][tr bg=#392]\\%n  [td blackborder "
             + "colspan=%d align=center][color=white]%s[/color][/td]\\%n";
-    private static String TEMPLATE_ROW_BREAK = "[/tr][tr bg=%s]\\%n";
+    private static final String TEMPLATE_ROW_BREAK = "[/tr][tr bg=%s]\\%n";
 
     public void populate(PerformancesWrapper wrapper) {
         boolean haaTiebreaker = wrapper.getTiebreakerTitle() != null;
@@ -80,10 +80,6 @@ public class BBCodeBuilder {
 
     private String contentRow(String color, boolean hasTiebreaker, PerformanceValue performanceValue) {
         return rowBreak(color) + contentCells(hasTiebreaker, performanceValue);
-    }
-
-    private String contentRow(boolean hasTiebreaker, PerformanceValue performanceValue) {
-        return rowBreakNoColor() + contentCells(hasTiebreaker, performanceValue);
     }
 
     private String contentCells(boolean hasTiebreaker, PerformanceValue performanceValue) {

@@ -46,17 +46,21 @@ public class TeamFetcherTest {
 
     @Test
     public void getTeams() throws IOException, JAXBException {
-        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>(loadFile(FILE_TEAMS), HttpStatus.OK));
+        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<>(loadFile(FILE_TEAMS), HttpStatus.OK));
         List<Team> teams = teamFetcher.getTeams(0);
         assertEquals("Team list size does not match", 3, teams.size());
-        assertTrue("Did not contain team "+ 874289, teams.contains(new Team(874289,"[D-A-CH] Pest Beuler", "Eisenherz","D-A-CH")));
-        assertTrue("Did not contain team "+874359, teams.contains(new Team(874359,"[D-A-CH]Black Forest Crushers", "fuzzel1985","D-A-CH")));
-        assertTrue("Did not contain team "+874376, teams.contains(new Team(874376,"[D-A-CH]s-Unternehmen", "Hollaender","D-A-CH")));
+        assertTrue("Did not contain team " + 874289, teams.contains(new Team(874289, "[D-A-CH] Pest Beuler",
+                "Eisenherz", "D-A-CH")));
+        assertTrue("Did not contain team " + 874359, teams.contains(new Team(874359, "[D-A-CH]Black Forest Crushers",
+                "fuzzel1985", "D-A-CH")));
+        assertTrue("Did not contain team " + 874376, teams.contains(new Team(874376, "[D-A-CH]s-Unternehmen",
+                "Hollaender", "D-A-CH")));
     }
 
     @Test(expected = RestClientException.class)
     public void httpError() throws Exception {
-        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenThrow(new RestClientException("Expected exception"));
+        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenThrow(new RestClientException(
+                "Expected exception"));
         teamFetcher.getTeams(0);
     }
 

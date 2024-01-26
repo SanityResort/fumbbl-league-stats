@@ -1,17 +1,17 @@
 package org.butterbrot.fls;
 
-public class PerformanceValue implements Comparable {
+public class PerformanceValue implements Comparable<PerformanceValue> {
 
-    private int playerId;
+    private final int playerId;
     private int place;
     private String playerName;
     private String teamName;
     private String teamUrlPath;
 
-    private int value;
-    private Integer tiebreaker;
+    private final int value;
+    private final Integer tiebreaker;
 
-    private PerformanceAspect aspect;
+    private final PerformanceAspect aspect;
 
     public PerformanceValue(int playerId, int value, Integer tiebreaker, PerformanceAspect aspect) {
         this.playerId = playerId;
@@ -65,21 +65,16 @@ public class PerformanceValue implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        if (o == null) {
+    public int compareTo(@SuppressWarnings("NullableProblems") PerformanceValue that) {
+        if (that == null) {
             throw new IllegalArgumentException("Comparing with null value");
         }
-        if (! (o instanceof PerformanceValue)) {
-            throw new IllegalArgumentException("Comparing invalid class: " + o.getClass().getSimpleName());
-        }
-
-        PerformanceValue that = (PerformanceValue) o;
 
         if (this.aspect != that.aspect) {
             throw new IllegalArgumentException("Comparing different aspects: " + this.aspect.name() + " and " + that.aspect.name());
         }
 
-        int result = Integer.valueOf(that.getValue()).compareTo(this.getValue());
+        int result = Integer.compare(that.getValue(), this.getValue());
 
         if (result == 0 && aspect.hasTiebreaker()) {
             if (aspect.isSortTiebreakAsc()) {

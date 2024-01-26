@@ -5,6 +5,7 @@ import org.springframework.util.StringUtils;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Objects;
 
 @XmlRootElement(name="team")
 public class Team {
@@ -41,14 +42,11 @@ public class Team {
         this.name =  StringUtils.trimWhitespace(name);
     }
 
-    public void setCoachName(String coachName) {
-        this.coachName = StringUtils.trimWhitespace(coachName);
-    }
-
     public void setGroupName(String groupName) {
         this.groupName =  StringUtils.trimWhitespace(groupName);
     }
 
+    @SuppressWarnings("unused")
     private Team() {
         // jaxb
     }
@@ -68,9 +66,9 @@ public class Team {
         Team team = (Team) o;
 
         if (id != team.id) return false;
-        if (name != null ? !name.equals(team.name) : team.name != null) return false;
-        if (coachName != null ? !coachName.equals(team.coachName) : team.coachName != null) return false;
-        return groupName != null ? groupName.equals(team.groupName) : team.groupName == null;
+        if (!Objects.equals(name, team.name)) return false;
+        if (!Objects.equals(coachName, team.coachName)) return false;
+        return Objects.equals(groupName, team.groupName);
     }
 
     @Override

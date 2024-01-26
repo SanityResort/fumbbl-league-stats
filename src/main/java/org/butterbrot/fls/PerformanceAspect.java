@@ -18,9 +18,9 @@ enum PerformanceAspect {
 
     private final String title;
     private final AspectAccessor accessor;
-    private boolean sortTiebreakAsc;
-    private String tieBreakerTitle;
-    private AspectAccessor tieBreakerAccessor;
+    private final boolean sortTiebreakAsc;
+    private final String tieBreakerTitle;
+    private final AspectAccessor tieBreakerAccessor;
 
     PerformanceAspect(String title, AspectAccessor accessor, boolean sortTiebreakAsc, String tieBreakerTitle, AspectAccessor
             tieBreakerAccessor) {

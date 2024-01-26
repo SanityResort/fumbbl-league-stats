@@ -5,17 +5,16 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
 public class PerformanceEvaluatorTest {
 
-    private static Set<Performance> unevaluatedPerformances = PerformanceTestHelper.unevaluatedPerformances();
+    private static final Set<Performance> unevaluatedPerformances = PerformanceTestHelper.unevaluatedPerformances();
 
-    private PerformanceEvaluator evaluator = new PerformanceEvaluator();
+    private final PerformanceEvaluator evaluator = new PerformanceEvaluator();
 
     @Test
     public void evaluatesToLimitWithCutOff() {
@@ -63,7 +62,7 @@ public class PerformanceEvaluatorTest {
         assertEquals("Second to lasts elements cas count does not match", 2, performances.get(3).getValue());
         assertEquals("Lasts elements block count does not match", 4, performances.get(4).getTiebreaker().intValue());
         assertEquals("Second to lasts elements block count does not match", 4, performances.get(3).getTiebreaker().intValue());
-        assertFalse("Last two elements are identical", performances.get(4).getPlayerId() == performances.get(3).getPlayerId());
+        assertNotEquals("Last two elements are identical", performances.get(4).getPlayerId(), performances.get(3).getPlayerId());
     }
 
 
@@ -98,15 +97,10 @@ public class PerformanceEvaluatorTest {
         assertEquals("Second to lasts elements completion count does not match", 4, performances.get(2).getValue());
         assertEquals("Lasts elements pass count does not match", 6, performances.get(3).getTiebreaker().intValue());
         assertEquals("Second to lasts elements pass count does not match", 6, performances.get(2).getTiebreaker().intValue());
-        assertFalse("Last two elements are identical", performances.get(2).getPlayerId() == performances.get(3).getPlayerId());
+        assertNotEquals("Last two elements are identical", performances.get(2).getPlayerId(), performances.get(3).getPlayerId());
     }
 
     private static List<Integer> mapToAspect(List<PerformanceValue> performances) {
-        return performances.stream().map(new Function<PerformanceValue, Integer>() {
-            @Override
-            public Integer apply(PerformanceValue performance) {
-                return performance.getValue();
-            }
-        }).collect(Collectors.toList());
+        return performances.stream().map(PerformanceValue::getValue).collect(Collectors.toList());
     }
 }

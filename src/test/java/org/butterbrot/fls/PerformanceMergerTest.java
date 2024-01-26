@@ -2,17 +2,17 @@ package org.butterbrot.fls;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import static org.butterbrot.fls.PerformanceTestHelper.*;
+import static org.butterbrot.fls.PerformanceTestHelper.assertPerformances;
+import static org.butterbrot.fls.PerformanceTestHelper.createPerformance;
+import static org.butterbrot.fls.PerformanceTestHelper.unmergedPerformances;
 
 
 public class PerformanceMergerTest {
 
-    private PerformanceMerger performanceMerger = new PerformanceMerger();
+    private final PerformanceMerger performanceMerger = new PerformanceMerger();
 
     @Test
     public void merge() {
@@ -23,13 +23,13 @@ public class PerformanceMergerTest {
 
     private static Set<Performance> expectedPerformances() {
         Set<Performance> expectedPerformances = new HashSet<>();
-        expectedPerformances.add(createPerformance(10, 6 + 3, 1, 1, 0, 0 + 1,
-                0, 5, 0 + 10, 1, 10 + 12));
+        expectedPerformances.add(createPerformance(10, 6 + 3, 1, 1, 0, 1,
+                0, 5, 10, 1, 10 + 12));
         expectedPerformances.add(createPerformance(11, 3, 0, 0, 0, 1,
                 0, 0, 10, 0, 12));
-        expectedPerformances.add(createPerformance(12, 13 + 13 + 5, 1 + 1 + 1, 0, 0 + 1, 0,
+        expectedPerformances.add(createPerformance(12, 13 + 13 + 5, 1 + 1 + 1, 0, 1, 0,
                 1, 0, 0, 0, 17 + 17 + 17));
-        expectedPerformances.add(createPerformance(13, 4 + 4 + 13, 0 + 1, 0, 0, 0,
+        expectedPerformances.add(createPerformance(13, 4 + 4 + 13, 1, 0, 0, 0,
                 1, 0, 0, 0, 15 + 15 + 17));
         expectedPerformances.add(createPerformance(14, 5 + 5, 1 + 1, 0, 1 + 1, 0,
                 0, 0, 0, 0, 17 + 17));

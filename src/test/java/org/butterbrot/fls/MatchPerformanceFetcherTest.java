@@ -42,38 +42,38 @@ public class MatchPerformanceFetcherTest {
 
     @Before
     public void setUp() throws JAXBException {
-        ReflectionTestUtils.setField(matchPerformanceFetcher, "jaxbContext", JAXBContext.newInstance(Performance
-                .class));
+        ReflectionTestUtils.setField(matchPerformanceFetcher, "jaxbContext",
+                JAXBContext.newInstance(Performance.class));
     }
 
     @Test
     public void getPerformances() throws Exception {
-        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>
-                (loadFile(FILE_MATCHES), HttpStatus.OK)).thenReturn(new ResponseEntity<String>(loadFile
-                (FILE_NO_MATCHES), HttpStatus.OK));
+        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class)))
+                .thenReturn(new ResponseEntity<>(loadFile(FILE_MATCHES), HttpStatus.OK))
+                .thenReturn(new ResponseEntity<>(loadFile(FILE_NO_MATCHES), HttpStatus.OK));
         List<Performance> performances = matchPerformanceFetcher.getPerformances(1);
         assertEquals("Performance list size does not match", 4, performances.size());
-        assertTrue("Did not contain performance for player " + 10, performances.contains(PerformanceTestHelper
-                .createPerformance(10, 8, 0, 1, 0, 0, 0, 0, 0, 1, 16)));
-        assertTrue("Did not contain performance for player " + 11, performances.contains(PerformanceTestHelper
-                .createPerformance(11, 6, 1, 0, 0, 0, 1, 0, 0, 0, 16)));
-        assertTrue("Did not contain performance for player " + 11, performances.contains(PerformanceTestHelper
-                .createPerformance(11, 9, 2, 0, 0, 0, 0, 0, 0, 0, 0)));
-        assertTrue("Did not contain performance for player " + 12, performances.contains(PerformanceTestHelper
-                .createPerformance(12, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+        assertTrue("Did not contain performance for player " + 10,
+                performances.contains(PerformanceTestHelper.createPerformance(10, 8, 0, 1, 0, 0, 0, 0, 0, 1, 16)));
+        assertTrue("Did not contain performance for player " + 11,
+                performances.contains(PerformanceTestHelper.createPerformance(11, 6, 1, 0, 0, 0, 1, 0, 0, 0, 16)));
+        assertTrue("Did not contain performance for player " + 11,
+                performances.contains(PerformanceTestHelper.createPerformance(11, 9, 2, 0, 0, 0, 0, 0, 0, 0, 0)));
+        assertTrue("Did not contain performance for player " + 12,
+                performances.contains(PerformanceTestHelper.createPerformance(12, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
     }
 
     @Test(expected = RestClientException.class)
     public void httpError() throws Exception {
-        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenThrow(new RestClientException
-                ("Expected exception"));
+        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenThrow(new RestClientException(
+                "Expected exception"));
         matchPerformanceFetcher.getPerformances(1);
     }
 
     @Test
     public void noPaging() throws Exception {
-        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>
-                (loadFile(FILE_NO_MATCHES), HttpStatus.OK));
+        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class)))
+                .thenReturn(new ResponseEntity<>(loadFile(FILE_NO_MATCHES), HttpStatus.OK));
         matchPerformanceFetcher.getPerformances(1);
         verify(fumbblTemplate).getForEntity(any(URI.class), eq(String.class));
         verifyNoMoreInteractions(fumbblTemplate);
@@ -81,9 +81,9 @@ public class MatchPerformanceFetcherTest {
 
     @Test
     public void paging() throws Exception {
-        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenReturn(new ResponseEntity<String>
-                (loadFile(FILE_MATCHES), HttpStatus.OK)).thenReturn(new ResponseEntity<String>(loadFile
-                (FILE_NO_MATCHES), HttpStatus.OK));
+        when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class)))
+                .thenReturn(new ResponseEntity<>(loadFile(FILE_MATCHES), HttpStatus.OK))
+                .thenReturn(new ResponseEntity<>(loadFile(FILE_NO_MATCHES), HttpStatus.OK));
         matchPerformanceFetcher.getPerformances(1);
         verify(fumbblTemplate, times(2)).getForEntity(any(URI.class), eq(String.class));
         verifyNoMoreInteractions(fumbblTemplate);

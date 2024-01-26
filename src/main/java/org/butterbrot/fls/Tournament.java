@@ -5,6 +5,7 @@ import org.springframework.util.StringUtils;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Objects;
 
 @XmlRootElement(name = "tournament")
 public class Tournament implements Comparable<Tournament> {
@@ -18,6 +19,7 @@ public class Tournament implements Comparable<Tournament> {
     private String groupName;
     private int groupId;
 
+    @SuppressWarnings("unused")
     private Tournament() {
         // jaxb
     }
@@ -53,10 +55,6 @@ public class Tournament implements Comparable<Tournament> {
         return season;
     }
 
-    public void setSeason(int season) {
-        this.season = season;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,8 +65,8 @@ public class Tournament implements Comparable<Tournament> {
         if (id != that.id) return false;
         if (season != that.season) return false;
         if (groupId != that.groupId) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        return groupName != null ? groupName.equals(that.groupName) : that.groupName == null;
+        if (!Objects.equals(name, that.name)) return false;
+        return Objects.equals(groupName, that.groupName);
     }
 
     @Override
@@ -82,7 +80,7 @@ public class Tournament implements Comparable<Tournament> {
     }
 
     @Override
-    public int compareTo(Tournament o) {
+    public int compareTo(@SuppressWarnings("NullableProblems") Tournament o) {
         if (o != null) {
             return Integer.compare(o.getId(), this.getId());
         }

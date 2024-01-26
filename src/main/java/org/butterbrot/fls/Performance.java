@@ -54,6 +54,7 @@ public class Performance {
         calculateSpp();
     }
 
+    @SuppressWarnings("unused")
     private Performance() {
         //jaxb
     }

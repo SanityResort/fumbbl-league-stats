@@ -55,15 +55,18 @@ public class TournamentFetcher {
             tournamentElements.addAll(doc.getElementsByTag("tournament"));
              Elements nameElements = doc.select("group name");
              if (!nameElements.isEmpty()) {
-                 name = nameElements.first().text();
+                 Element first = nameElements.first();
+                 if (first != null) {
+                     name = first.text();
+                 }
              }
         }
         return new Container(tournamentElements, name);
     }
 
     private static class Container {
-        private List<Element> tournaments;
-        private String name;
+        private final List<Element> tournaments;
+        private final String name;
 
         public Container(List<Element> tournaments, String name) {
             this.tournaments = tournaments;

@@ -44,7 +44,7 @@ public class PlayerFetcherTest {
     }
 
     @Test(expected = RestClientException.class)
-    public void httpError() throws Exception {
+    public void httpError() {
         when(fumbblTemplate.getForEntity(any(URI.class), eq(String.class))).thenThrow(new RestClientException("Expected exception"));
         playerFetcher.populate(new PerformanceValue(0, 0, null, null));
     }
