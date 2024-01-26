@@ -55,6 +55,12 @@ public class Tournament implements Comparable<Tournament> {
         return season;
     }
 
+
+    @SuppressWarnings("unused") // jaxb
+    public void setSeason(int season) {
+        this.season = season;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -42,6 +42,11 @@ public class Team {
         this.name =  StringUtils.trimWhitespace(name);
     }
 
+    @SuppressWarnings("unused") // jaxb
+    public void setCoachName(String coachName) {
+        this.coachName = StringUtils.trimWhitespace(coachName);
+    }
+
     public void setGroupName(String groupName) {
         this.groupName =  StringUtils.trimWhitespace(groupName);
     }
