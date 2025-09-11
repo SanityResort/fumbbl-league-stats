@@ -35,7 +35,6 @@ Replace:
 ### Notes
 - You can set the publishing properties as environment variables or in your Maven settings for automation and security
 - The publish profile will both build and push the image to the specified registry
-
 ## Example: Build and Publish to Docker Hub
 ```
 mvn spring-boot:build-image -P publish-image \
