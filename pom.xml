@@ -34,6 +34,16 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <image>
+                        <name>fumbbl-league-stats:latest</name>
+                        <publish>
+                            <registry>${docker.publishRegistry}</registry>
+                            <username>${docker.publishUsername}</username>
+                            <password>${docker.publishPassword}</password>
+                        </publish>
+                    </image>
+                </configuration>
             </plugin>
         </plugins>
     </build>
