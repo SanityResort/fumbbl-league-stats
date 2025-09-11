@@ -37,12 +37,15 @@
                 <configuration>
                     <image>
                         <name>fumbbl-league-stats:latest</name>
-                        <publish>
-                            <registry>${docker.publishRegistry}</registry>
+                    </image>
+                    <publish>true</publish>
+                    <docker>
+                        <publishRegistry>
+                            <url>${docker.publishRegistry}</url>
                             <username>${docker.publishUsername}</username>
                             <password>${docker.publishPassword}</password>
-                        </publish>
-                    </image>
+                        </publishRegistry>
+                    </docker>
                 </configuration>
             </plugin>
         </plugins>

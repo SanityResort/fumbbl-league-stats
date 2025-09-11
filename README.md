@@ -5,7 +5,7 @@
 This project uses the Spring Boot Maven Plugin with Cloud Native Buildpacks to build a Docker image.
 
 ### Prerequisites
-- Java 8 or higher
+- Java 8
 - Maven 3.2+
 - Docker (running locally)
 
