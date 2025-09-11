@@ -24,12 +24,13 @@ You can publish the image to a remote registry by providing registry credentials
 
 ### Command
 ```
-mvn spring-boot:build-image \
+mvn spring-boot:build-image -P profile \
   -Ddocker.publishRegistry=your.registry.url \
   -Ddocker.publishUsername=your-username \
   -Ddocker.publishPassword=your-password
 ```
 
+- Replace `profile` with either `build` to only build the image (publish parameters can be omitted) or `publish`
 - Replace `your.registry.url` with your Docker registry (e.g., `docker.io/yourrepo` or `ghcr.io/yourorg`).
 - Replace `your-username` and `your-password` with your registry credentials.
 
@@ -37,9 +38,14 @@ mvn spring-boot:build-image \
 - You can also set these properties as environment variables or in your Maven settings for automation and security.
 - The image will be pushed to the specified registry after building.
 
+## Example: Build only
+```
+mvn spring-boot:build-image -P build
+```
+
 ## Example: Build and Publish to Docker Hub
 ```
-mvn spring-boot:build-image \
+mvn spring-boot:build-image -P publish \
   -Ddocker.publishRegistry=docker.io/yourusername \
   -Ddocker.publishUsername=yourusername \
   -Ddocker.publishPassword=yourpassword
