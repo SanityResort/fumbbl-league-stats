@@ -4,8 +4,8 @@ WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# Stage 2: Create the runtime image
-FROM eclipse-temurin:8-jre-alpine
+# Stage 2: Create the runtime image (non-Alpine)
+FROM eclipse-temurin:8-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
